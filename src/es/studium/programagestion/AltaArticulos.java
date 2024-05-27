@@ -36,7 +36,7 @@ public class AltaArticulos implements WindowListener, ActionListener{
 		public AltaArticulos()
 		{	//Añadimos los elementos a la ventana
 			ventanaAltaArticulo.setLayout(new FlowLayout());
-			ventanaAltaArticulo.setSize(250,160);
+			ventanaAltaArticulo.setSize(190,350);
 			ventanaAltaArticulo.setResizable(false);
 			ventanaAltaArticulo.setVisible(true);
 			ventanaAltaArticulo.addWindowListener(this);
@@ -61,9 +61,48 @@ public class AltaArticulos implements WindowListener, ActionListener{
 		}
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			
+			//Con esto si pulsamos cancelar se borra el texto escrito
+			if(e.getSource().equals(btncancelar))
+			{
+				txtnombreart.setText("");
+				txtdescripcion.setText("");
+				txtprecio.setText("");
+				txtstock.setText("");
+				txtnombreart.requestFocus();
+			}
+			//Si clicamos en el botón aceptar 
+			if(e.getSource().equals(btnaceptar)) {
+				//Concetamos la BD con el Objeto previamente creado
+				datAlta.conectar();
+				//Comprobamos que la sentencia fue ejecutada correctamente y que los datos son correctos
+				String articulo=txtnombreart.getText();
+				String descripcion=txtdescripcion.getText();
+				String precio=txtprecio.getText();
+				boolean altaCorrecta=datAlta.empleadoAlta(articulo, descripcion, precio);
+
+				//Añadimos el dialogo a la ventana del Alta
+				dlgAlta.setLayout(new FlowLayout());
+				dlgAlta.setSize(250,160);
+				dlgAlta.setResizable(false);
+				dlgAlta.addWindowListener(this);
+
+				//Si el Alta es correcta
+				if(altaCorrecta==true) 
+				{
+					lblAlta.setText("Alta Realizada Correctamente");
+					dlgAlta.add(lblAlta);
+				}
+				//Si no se ha realizado correctamente el Alta
+				else
+				{
+					lblAlta.setText("No se ha realizado el alta correctamente");
+				}
+
+				dlgAlta.setVisible(true);
+			}
 		}
+			
+		
 		@Override
 		public void windowOpened(WindowEvent e) {
 			// TODO Auto-generated method stub
@@ -71,7 +110,7 @@ public class AltaArticulos implements WindowListener, ActionListener{
 		}
 		@Override
 		public void windowClosing(WindowEvent e) {
-			System.exit(0);
+			ventanaAltaArticulo.setVisible(false);	
 			
 		}
 		@Override

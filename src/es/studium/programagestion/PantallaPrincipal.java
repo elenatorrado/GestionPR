@@ -68,6 +68,11 @@
 			mEmpleado.add(empleadoModificacion);
 			mEmpleado.add(empleadoConsulta);
 
+			articulosAlta.addActionListener(this);
+			articulosBaja.addActionListener(this);
+			articulosModificacion.addActionListener(this);
+			articulosConsulta.addActionListener(this);
+			
 			mArticulos.add(articulosAlta);
 			mArticulos.add(articulosBaja);
 			mArticulos.add(articulosModificacion);
@@ -110,6 +115,10 @@
 			 if (e.getSource().equals(empleadoBaja))
 				{
 					new BajaEmpleado();
+				}
+			 if (e.getSource().equals(articulosAlta))
+				{
+					new AltaArticulos();
 				}
 			
 		}
