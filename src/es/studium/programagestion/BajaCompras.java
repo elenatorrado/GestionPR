@@ -43,7 +43,8 @@ public class BajaCompras implements WindowListener, ActionListener {
 				ventanaBajaCompras.add(chcarticulos);
 				ventanaBajaCompras.add(btnaceptar);
 				ventanaBajaCompras.add(btncancelar);
-				//Añadimos los botones
+				
+			
 				btnaceptar.addActionListener(this);
 				btncancelar.addActionListener(this);
 			}

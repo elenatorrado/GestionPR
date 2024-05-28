@@ -66,8 +66,6 @@ public class AltaArticulos implements WindowListener, ActionListener{
 			{
 				txtnombreart.setText("");
 				txtdescripcion.setText("");
-				txtprecio.setText("");
-				txtstock.setText("");
 				txtnombreart.requestFocus();
 			}
 			//Si clicamos en el botón aceptar 
@@ -78,7 +76,7 @@ public class AltaArticulos implements WindowListener, ActionListener{
 				String articulo=txtnombreart.getText();
 				String descripcion=txtdescripcion.getText();
 				String precio=txtprecio.getText();
-				boolean altaCorrecta=datAlta.empleadoAlta(articulo, descripcion, precio);
+				boolean altaCorrecta=datAlta.empleadoAlta(articulo, descripcion, precio); //CAMBIAR
 
 				//Añadimos el dialogo a la ventana del Alta
 				dlgAlta.setLayout(new FlowLayout());

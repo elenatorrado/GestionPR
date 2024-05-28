@@ -2,6 +2,7 @@
 package es.studium.programagestion;
 
 import java.awt.Button;
+import java.awt.Dialog;
 import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.Label;
@@ -21,6 +22,9 @@ public class AltaUsuario implements WindowListener, ActionListener{
 	TextField txtpassword = new TextField(15);
 	Button btnaceptar = new Button("Aceptar");
 	Button btncancelar = new Button("Cancelar");
+	Datos datAlta=new Datos();
+	Dialog dlgAlta=new Dialog(ventanaCompra,"Alta",true);
+	Label lblAlta=new Label("Alta realizada correctamente");
 	
 	public AltaUsuario ()
 	{	//Añadimos los elementos a la ventana
@@ -47,9 +51,47 @@ public class AltaUsuario implements WindowListener, ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
+		//Con esto si pulsamos cancelar se borra el texto escrito
+		if(e.getSource().equals(btncancelar))
+		{
+			txtnomusu.setText("");
+			txttiposu.setText("");
+			txtpassword.setText("");
+			txtnomusu.requestFocus();
+		}
+		//Si clicamos en el botón aceptar 
+		if(e.getSource().equals(btnaceptar)) {
+			//Concetamos la BD con el Objeto previamente creado
+			datAlta.conectar();
+			//Comprobamos que la sentencia fue ejecutada correctamente y que los datos son correctos
+			String nombre=txtnomusu.getText();
+			String tipousuario=txttiposu.getText();
+			String password=txtpassword.getText();
+			boolean altaCorrecta=datAlta.usuarioAlta(nombre, tipousuario, password); //CAMBIAR
+
+			//Añadimos el dialogo a la ventana del Alta
+			dlgAlta.setLayout(new FlowLayout());
+			dlgAlta.setSize(250,160);
+			dlgAlta.setResizable(false);
+			dlgAlta.addWindowListener(this);
+
+			//Si el Alta es correcta
+			if(altaCorrecta==true) 
+			{
+				lblAlta.setText("Alta Realizada Correctamente");
+				dlgAlta.add(lblAlta);
+			}
+			//Si no se ha realizado correctamente el Alta
+			else
+			{
+				lblAlta.setText("No se ha realizado el alta correctamente");
+			}
+
+			dlgAlta.setVisible(true);
+		}
 	}
+		
+	
 
 	@Override
 	public void windowOpened(WindowEvent e) {

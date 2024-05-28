@@ -17,6 +17,7 @@
 		Menu mTickets= new Menu("Tickets");
 		Menu mArticulos= new Menu("Artículos");
 		Menu mCompras= new Menu("Compras");
+		
 
 		//Añadimos los Items de cada tabla
 
@@ -44,6 +45,7 @@
 		MenuItem comprasBaja= new MenuItem("Baja");
 		MenuItem comprasModificacion= new MenuItem("Modificación");
 		MenuItem comprasConsulta= new MenuItem("Consulta");
+		
 	//Distrubuimos los elementos en la ventana
 		 public PantallaPrincipal()
 		    	{
@@ -56,11 +58,13 @@
 			pantallaPrincipal.addWindowListener(this);
 			pantallaPrincipal.setMenuBar(Menu);
 			pantallaPrincipal.setLocationRelativeTo(null);
-			//Añadimos los elementos
+			
+			//Añadimos los elementos a la barra de menu
 			Menu.add(mEmpleado);
 			Menu.add(mArticulos);
 			Menu.add(mTickets);
 			Menu.add(mCompras);
+			
 			
 
 			mEmpleado.add(empleadoAlta);
@@ -68,10 +72,6 @@
 			mEmpleado.add(empleadoModificacion);
 			mEmpleado.add(empleadoConsulta);
 
-			articulosAlta.addActionListener(this);
-			articulosBaja.addActionListener(this);
-			articulosModificacion.addActionListener(this);
-			articulosConsulta.addActionListener(this);
 			
 			mArticulos.add(articulosAlta);
 			mArticulos.add(articulosBaja);
@@ -88,10 +88,31 @@
 			mCompras.add(comprasModificacion);
 			mCompras.add(comprasConsulta);
 			
-			//Añadimos el ActionListener
+			
+			
+			
+			//Añadimos el ActionListener Empleado
 			empleadoConsulta.addActionListener(this);
 			empleadoAlta.addActionListener(this);
 			empleadoBaja.addActionListener(this);
+			empleadoModificacion.addActionListener(this);
+			//Añadimos ActionListenerArticulo
+			articulosAlta.addActionListener(this);
+			articulosBaja.addActionListener(this);
+			articulosModificacion.addActionListener(this);
+			articulosConsulta.addActionListener(this);
+			//Añadimos el ActionListener Compra
+			comprasConsulta.addActionListener(this);
+			comprasAlta.addActionListener(this);
+			comprasBaja.addActionListener(this);
+			comprasModificacion.addActionListener(this);
+			//Añadimos el ActionListener Tickets
+			ticketsConsulta.addActionListener(this);
+			ticketsAlta.addActionListener(this);
+			ticketsBaja.addActionListener(this);
+			ticketsModificacion.addActionListener(this);
+
+
 
 
 		}
@@ -104,6 +125,7 @@
 		}
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			//Empleado
 			if(e.getSource().equals(empleadoConsulta))
 	        {
 				new ConsultaEmpleado();
@@ -116,12 +138,61 @@
 				{
 					new BajaEmpleado();
 				}
+			 //Articulos
 			 if (e.getSource().equals(articulosAlta))
 				{
 					new AltaArticulos();
 				}
-			
+			 if (e.getSource().equals(articulosBaja))
+				{
+					new BajaArticulos();
+				}
+			 if (e.getSource().equals(articulosModificacion))
+				{
+					new ModificacionesArticulo();
+				}
+			 if (e.getSource().equals(articulosConsulta))
+				{
+					new ConsultaArticulo();
+				}
+			//Tickets
+			 if (e.getSource().equals(ticketsAlta))
+				{
+					new AltaTickets();
+				}
+			 if (e.getSource().equals(ticketsBaja))
+				{
+					new BajaTickets();
+				}
+			 if (e.getSource().equals(ticketsModificacion))
+				{
+					new ModificacionesTickets();
+				}
+			 if (e.getSource().equals(ticketsConsulta))
+				{
+					new ConsultaTickets();
+				}
+			 
+			//Compras
+			 
+			 if (e.getSource().equals(comprasAlta))
+				{
+					new AltaCompras();
+				}
+			 if (e.getSource().equals(comprasBaja))
+				{
+					new BajaCompras();
+				}
+			 if (e.getSource().equals(comprasModificacion))
+				{
+					new ModificacionesCompras(); 
+				}
+			 if (e.getSource().equals(comprasConsulta))
+				{
+					new ConsultaCompra();
+				}
 		}
+				
 		@Override
 		public void windowOpened(WindowEvent e) {
 			// TODO Auto-generated method stub

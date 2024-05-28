@@ -208,10 +208,10 @@ public class Datos {
 		}
 
 		// Alta Tickets
-			public boolean ticketsAlta(String descripcionTicket, String fechaTicket, float importeTickets) {
+			public boolean ticketsAlta(String descripcionTicket, String fechaTicket, String importe) {
 				boolean altaCorrecta = true;
 				String sentenciaSQL = "INSERT INTO Empleado VALUES (NULL,'" + descripcionTicket + "', '" + fechaTicket + "','"
-						+ importeTickets + "');";
+						+ importe + "');";
 				System.out.println(sentenciaSQL);
 		
 				try {
@@ -243,7 +243,7 @@ public class Datos {
 				return altaCorrecta;
 			}	
 			// Alta Usuario
-				public boolean usuarioAlta(String nombreUsuario , String passwordUsuario) {
+				public boolean usuarioAlta(String nombreUsuario , String passwordUsuario, String password2) {
 				boolean altaCorrecta = true;
 				String sentenciaSQL = "INSERT INTO Empleado VALUES (NULL,'" + nombreUsuario  + "', '" + passwordUsuario + "');";
 				System.out.println(sentenciaSQL);
@@ -372,6 +372,9 @@ public class Datos {
 						}
 					}
 					
+
 				}
 }
+
+				
 

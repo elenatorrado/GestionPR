@@ -36,21 +36,18 @@
 							btnexportar.addActionListener(this);
 						//Concetamos el objeto datconsulta//TextArea
 							datconsultas.conectar();
+							consulta.append("id - Nombre - Descripcion - Stock - id Tickets");
 							consulta.append(datconsultas.ConsultaArticulo());
 						//Desconectamos la base de datos
 							datconsultas.desconectar();
 				}
 		
-				//Creamos el main
-			//	public static void main(String[] args) 
-				{
-				//	new ConsultaEmpleado();
-				}
-		
-		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
+			if(e.getSource().equals(btnexportar)) {
+				new ExportarArticulo("Consulta Articulo.pdf");
+			}
 			
 		}
 

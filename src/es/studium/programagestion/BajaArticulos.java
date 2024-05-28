@@ -37,7 +37,7 @@ public class BajaArticulos implements WindowListener, ActionListener {
 			public BajaArticulos()
 			{	//Añadimos los elementos a la ventana
 				ventanaBajaArticulo.setLayout(new FlowLayout());
-				ventanaBajaArticulo.setSize(250,160);
+				ventanaBajaArticulo.setSize(300,180);
 				ventanaBajaArticulo.setResizable(false);
 				ventanaBajaArticulo.setVisible(true);
 				ventanaBajaArticulo.addWindowListener(this);
@@ -56,9 +56,6 @@ public class BajaArticulos implements WindowListener, ActionListener {
 				ventanaBajaArticulo.add(chctickets);
 				ventanaBajaArticulo.add(btnaceptar);
 				ventanaBajaArticulo.add(btncancelar);
-				//Añadimos los botones
-				btnaceptar.addActionListener(this);
-				btncancelar.addActionListener(this);
 			}
 			@Override
 			public void actionPerformed(ActionEvent e) {

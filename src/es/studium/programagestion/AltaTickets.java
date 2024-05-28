@@ -16,14 +16,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
-public class AltaTickets<TextArea> implements WindowListener, ActionListener {
+public class AltaTickets implements WindowListener, ActionListener {
 	//Creamos los elementos del Alta Empleado
 	Frame ventanaAltaTickets = new Frame ("Alta Tickets");
 	Label lbldescripcion= new Label("Descripción");
 	TextField txtdescripcion= new TextField(15);
 	Label lblfecha= new Label("Fecha");
 	TextField txtfecha= new TextField(15);
-	Label lblimporte= new Label("importe");
+	Label lblimporte= new Label("Importe");
 	TextField txtimporte= new TextField(15);
 	Label lblempleado=new Label("Empleado");
 	Choice chcempleado= new Choice();
@@ -62,8 +62,46 @@ public class AltaTickets<TextArea> implements WindowListener, ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		//Con esto si pulsamos cancelar se borra el texto escrito
-				
+				if(e.getSource().equals(btncancelar))
+				{
+					txtdescripcion.setText("");
+					txtfecha.setText("");
+					txtimporte.setText("");
+					txtdescripcion.requestFocus();
+				}
+				//Si clicamos en el botón aceptar 
+				if(e.getSource().equals(btnaceptar)) {
+					//Concetamos la BD con el Objeto previamente creado
+					datAltaTickets.conectar();
+					//Comprobamos que la sentencia fue ejecutada correctamente y que los datos son correctos
+					String descripcion=txtdescripcion.getText();
+					String fecha=txtfecha.getText();
+					String importe=txtimporte.getText();
+					boolean altaCorrecta=datAltaTickets.ticketsAlta(descripcion, fecha, importe);
+
+					//Añadimos el dialogo a la ventana del Alta
+					dlgAltaTickets.setLayout(new FlowLayout());
+					dlgAltaTickets.setSize(250,160);
+					dlgAltaTickets.setResizable(false);
+					dlgAltaTickets.addWindowListener(this);
+
+					//Si el Alta es correcta
+					if(altaCorrecta==true) 
+					{
+						lblAltaTickets.setText("Alta Realizada Correctamente");
+						dlgAltaTickets.add(lblAltaTickets);
+					}
+					//Si no se ha realizado correctamente el Alta
+					else
+					{
+						lblAltaTickets.setText("No se ha realizado el alta correctamente");
+					}
+
+					dlgAltaTickets.setVisible(true);
+				}
 			}
+				
+			
 		
 	
 	@Override
