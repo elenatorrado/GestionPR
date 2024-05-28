@@ -17,8 +17,8 @@ public class BajaCompras implements WindowListener, ActionListener {
 			Frame ventanaBajaCompras = new Frame ("Baja Compras");
 			Label lblTickets= new Label("Tickets");
 			Choice chctickets=new Choice();
-			Label lblarticulos= new Label("Articulos");
-			Choice chcarticulos=new Choice();
+			Label lblcompras= new Label(" Elige la Compra que quieres borrar");
+			Choice chccompras=new Choice();
 			Button btnaceptar= new Button("Aceptar");
 			Button btncancelar= new Button("Cancelar");
 			Dialog dlgSeguro=new Dialog(ventanaBajaCompras,"¿Seguro@?",true);
@@ -38,16 +38,27 @@ public class BajaCompras implements WindowListener, ActionListener {
 
 				//Añadimos los elementos a la ventana
 				ventanaBajaCompras.add(lblTickets);
-				ventanaBajaCompras.add(lblarticulos);
+				ventanaBajaCompras.add(lblcompras);
 				ventanaBajaCompras.add(chctickets);
-				ventanaBajaCompras.add(chcarticulos);
+				ventanaBajaCompras.add(chccompras);
 				ventanaBajaCompras.add(btnaceptar);
 				ventanaBajaCompras.add(btncancelar);
-				
-			
+				//Añadimos
+				ventanaBajaCompras.add(lblTickets);
+				datos.conectar();
+				String[]elementos=datos.rellenarChoiceTickets();
+				for(String choiceRelleno:elementos) {
+					chctickets.add(choiceRelleno);
+				}
+				ventanaBajaCompras.add(btnSi);
+
+				//Añadimos los botones
 				btnaceptar.addActionListener(this);
 				btncancelar.addActionListener(this);
+				btnSi.addActionListener(this);
+				btnNo.addActionListener(this);
 			}
+				
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub

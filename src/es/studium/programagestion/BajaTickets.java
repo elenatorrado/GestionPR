@@ -21,7 +21,8 @@
 		Frame ventanaBajaTickets=new Frame("Baja Tickets");
 		Label lblBajaTickets=new Label("Elegir Ticket a Borrar: ");
 		Choice chcTickets=new Choice();
-		Button btnAceptar=new Button("Aceptar");
+		Button btnaceptar=new Button("Aceptar");
+		Button btncancelar=new Button("Cancelar");
 		Dialog dlgSeguro=new Dialog(ventanaBajaTickets,"¿Seguro@?",true);
 		Label lblMensaje=new Label("¿Seguro que quiere borrar?");
 		Button btnSi=new Button("Si");
@@ -45,10 +46,11 @@
 			for(String choiceRelleno:elementos) {
 				chcTickets.add(choiceRelleno);
 			}
-			ventanaBajaTickets.add(btnAceptar);
+			ventanaBajaTickets.add(btnaceptar);
 
 			//Añadimos los botones
-			btnAceptar.addActionListener(this);
+			btnaceptar.addActionListener(this);
+			btncancelar.addActionListener(this);
 			btnSi.addActionListener(this);
 			btnNo.addActionListener(this);
 		}
@@ -67,7 +69,7 @@
 
 		@Override
 		public void windowClosing(WindowEvent e) {
-			// TODO Auto-generated method stub
+			System.exit(0);
 
 		}
 

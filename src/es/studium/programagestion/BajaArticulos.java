@@ -25,7 +25,7 @@ public class BajaArticulos implements WindowListener, ActionListener {
 			Label lblstock= new Label("Stock");
 			TextField txtstock= new TextField(15);
 			Label lblticket= new Label("Ticket");
-			Choice chctickets=new Choice();
+			Choice chcarticulo=new Choice();
 			Button btnaceptar= new Button("Aceptar");
 			Button btncancelar= new Button("Cancelar");
 			Dialog dlgSeguro=new Dialog(ventanaBajaArticulo,"¿Seguro@?",true);
@@ -37,7 +37,7 @@ public class BajaArticulos implements WindowListener, ActionListener {
 			public BajaArticulos()
 			{	//Añadimos los elementos a la ventana
 				ventanaBajaArticulo.setLayout(new FlowLayout());
-				ventanaBajaArticulo.setSize(300,180);
+				ventanaBajaArticulo.setSize(420,180);
 				ventanaBajaArticulo.setResizable(false);
 				ventanaBajaArticulo.setVisible(true);
 				ventanaBajaArticulo.addWindowListener(this);
@@ -53,10 +53,27 @@ public class BajaArticulos implements WindowListener, ActionListener {
 				ventanaBajaArticulo.add(lblstock);
 				ventanaBajaArticulo.add(txtstock);
 				ventanaBajaArticulo.add(lblticket);
-				ventanaBajaArticulo.add(chctickets);
+				ventanaBajaArticulo.add(chcarticulo);
 				ventanaBajaArticulo.add(btnaceptar);
 				ventanaBajaArticulo.add(btncancelar);
+				
+				//Añadimos
+				ventanaBajaArticulo.add(lblticket);
+				datos.conectar();
+				String[]elementos=datos.rellenarChoiceTickets();
+				for(String choiceRelleno:elementos) {
+					chcarticulo.add(choiceRelleno);
+				}
+				ventanaBajaArticulo.add(chcarticulo);
+				ventanaBajaArticulo.add(btnaceptar);
+
+				//Añadimos los botones
+				btnaceptar.addActionListener(this);
+				btncancelar.addActionListener(this);
+				btnSi.addActionListener(this);
+				btnNo.addActionListener(this);
 			}
+			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub

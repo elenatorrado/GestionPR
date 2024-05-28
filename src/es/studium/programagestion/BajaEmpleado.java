@@ -20,6 +20,7 @@ public class BajaEmpleado implements WindowListener, ActionListener{
 	Label lblBaja=new Label("Elegir Empleado a Borrar: ");
 	Choice choEmpleados=new Choice();
 	Button btnAceptar=new Button("Aceptar");
+	Button btncancelar= new Button("Cancelar");
 	Dialog dlgSeguro=new Dialog(ventanaBaja,"¿Seguro@?",true);
 	Label lblMensaje=new Label("¿Seguro que quiere borrar?");
 	Button btnSi=new Button("Si");
@@ -50,6 +51,7 @@ public class BajaEmpleado implements WindowListener, ActionListener{
 
 		//Añadimos los botones
 		btnAceptar.addActionListener(this);
+		btncancelar.addActionListener(this);
 		btnSi.addActionListener(this);
 		btnNo.addActionListener(this);
 	}
@@ -68,7 +70,7 @@ public class BajaEmpleado implements WindowListener, ActionListener{
 
 	@Override
 	public void windowClosing(WindowEvent e) {
-		// TODO Auto-generated method stub
+		System.exit(0);
 
 	}
 
