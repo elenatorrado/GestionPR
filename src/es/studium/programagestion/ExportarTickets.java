@@ -14,10 +14,18 @@ import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.properties.UnitValue;
 
 public class ExportarTickets {
+	
+	
+
+		
+	
+
+
 	Datos exportarpdf= new Datos();
-	public static final String DEST="Consulta Tickets.pdf";{
+	public static final String DEST="Consulta Tickets.pdf";
 
-
+		public ExportarTickets(String dest)
+		{
 			try {
 				//Indicamos el PDF Writter
 					PdfWriter writer  =new PdfWriter(DEST);
@@ -54,7 +62,7 @@ public class ExportarTickets {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		
 	}
 	}
+	
 

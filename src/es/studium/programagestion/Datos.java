@@ -117,8 +117,14 @@ public class Datos {
 					rs = statement.executeQuery(sentencia);
 
 			while (rs.next()) {
-					contenido = contenido + rs.getString("idTickets") + "-" + rs.getString("descripcionTicket") + "-"
-						+ rs.getString("fechaTickets") + "-" + rs.getString("importeTickets") + "-" + "\n";
+					contenido = contenido 
+						+ rs.getString("idTickets") + "-" 
+						+ rs.getString("descripcionTickets") 
+						+ "-"
+						+ rs.getString("fechaTickets") 
+						+ "-" + rs.getString("importeTickets") 
+						+ "-"
+						+ "-" + rs.getString("idEmpleadoFK") + "\n";
 			}
 			} catch (SQLException e) {
 				System.out.println("Error en la sentencia SQL:" + e.toString());
@@ -137,8 +143,10 @@ public class Datos {
 				rs = statement.executeQuery(sentencia);
 
 			while (rs.next()) {
-					contenido = contenido + rs.getString("idUsuario") + "-" + rs.getString("nombreUsuario") + "-"
-						+ rs.getString("claveUsuario") + "\n";
+					contenido = contenido 
+							+ rs.getString("idUsuario") + "-" 
+							+ rs.getString("nombreUsuario") +"-"
+							+ rs.getString("claveUsuario") + "\n";
 			}
 			} catch (SQLException e) {
 				System.out.println("Error en la sentencia SQL:" + e.toString());
@@ -178,8 +186,8 @@ public class Datos {
 				rs = statement.executeQuery(sentencia);
 
 			while (rs.next()) {
-					contenido = contenido + rs.getString("idArticulo") + "-" + rs.getInt("idTicketsFK") + "-"
-						+ rs.getInt("idArticuloFK") + "\n";
+					contenido = contenido + rs.getString("idCompra") + "-" + rs.getInt("idTicketsFK") + "-"
+						+ rs.getInt("idArticulosFK") + "\n";
 			}
 			} catch (SQLException e) {
 				System.out.println("Error en la sentencia SQL:" + e.toString());

@@ -71,7 +71,7 @@ public class BajaCompras implements WindowListener, ActionListener {
 			}
 			@Override
 			public void windowClosing(WindowEvent e) {
-				System.exit(0);
+				ventanaBajaCompras.setVisible(false);
 				
 			}
 			@Override

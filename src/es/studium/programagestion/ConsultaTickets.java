@@ -36,15 +36,19 @@
 							btnexportar.addActionListener(this);
 						//Concetamos el objeto datconsulta//TextArea
 							datconsultas.conectar();
-							consulta.append(datconsultas.ConsultaEmpleado());
+							consulta.append("id - Descripcion - Fecha - Importe - Empleado  ");
+							consulta.append(datconsultas.ConsultaTickets());
 						//Desconectamos la base de datos
 							datconsultas.desconectar();
 				}
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					
+					if(e.getSource().equals(btnexportar)) {
+						new ExportarTickets("Consulta Tickets.pdf");
+					}
 				}
+					
+				
 				@Override
 				public void windowOpened(WindowEvent e) {
 					// TODO Auto-generated method stub
@@ -52,7 +56,7 @@
 				}
 				@Override
 				public void windowClosing(WindowEvent e) {
-					// TODO Auto-generated method stub
+					ventanaConsultaTickets.setVisible(false);
 					
 				}
 				@Override

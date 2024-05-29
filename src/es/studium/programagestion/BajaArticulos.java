@@ -86,7 +86,7 @@ public class BajaArticulos implements WindowListener, ActionListener {
 			}
 			@Override
 			public void windowClosing(WindowEvent e) {
-				System.exit(0);
+				ventanaBajaArticulo.setVisible(false);
 				
 			}
 			@Override
