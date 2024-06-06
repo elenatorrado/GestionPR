@@ -54,7 +54,30 @@ public class BajaUsuario implements WindowListener, ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		if (e.getSource() == btnaceptar) {
+            // Mostrar diálogo de confirmación
+            dlgSeguro.setLayout(new FlowLayout());
+            dlgSeguro.setSize(200, 100);
+            dlgSeguro.add(lblMensaje);
+            dlgSeguro.add(btnSi);
+            dlgSeguro.add(btnNo);
+            dlgSeguro.setVisible(true);
+        } else if (e.getSource() == btncancelar) {
+            ventanaBajaUsuario.setVisible(false);
+        } else if (e.getSource() == btnSi) {
+            // Eliminar el usuario
+            String nombreUsuario = txtnomusu.getText();
+            if (datos.eliminarUsuario(nombreUsuario, "usuario_actual")) {
+                System.out.println("Usuario eliminado con éxito.");
+            } else {
+                System.err.println("Error al eliminar el usuario.");
+            }
+            dlgSeguro.setVisible(false);
+            ventanaBajaUsuario.setVisible(false);
+        } else if (e.getSource() == btnNo) {
+            dlgSeguro.setVisible(false);
+        }
+    }
 		
 	}
 

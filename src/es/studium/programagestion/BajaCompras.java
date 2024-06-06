@@ -61,9 +61,33 @@ public class BajaCompras implements WindowListener, ActionListener {
 				
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				 if (e.getSource() == btnaceptar) {
+			            // Mostrar diálogo de confirmación
+			            dlgSeguro.setLayout(new FlowLayout());
+			            dlgSeguro.setSize(200, 100);
+			            dlgSeguro.add(lblMensaje);
+			            dlgSeguro.add(btnSi);
+			            dlgSeguro.add(btnNo);
+			            dlgSeguro.setVisible(true);
+			        } else if (e.getSource() == btncancelar) {
+			            ventanaBajaCompras.setVisible(false);
+			        } else if (e.getSource() == btnSi) {
+			            // Eliminar la compra seleccionada
+			            String idCompra = chccompras.getSelectedItem().split("-")[0];
+			            if (datos.eliminarCompra(Integer.parseInt(idCompra), "usuario_actual")) {
+			                System.out.println("Compra eliminada con éxito.");
+			            } else {
+			                System.err.println("Error al eliminar la compra.");
+			            }
+			            dlgSeguro.setVisible(false);
+			            ventanaBajaCompras.setVisible(false);
+			        } else if (e.getSource() == btnNo) {
+			            dlgSeguro.setVisible(false);
+			        }
+			    }
+
 				
-			}
+			
 			@Override
 			public void windowOpened(WindowEvent e) {
 				// TODO Auto-generated method stub

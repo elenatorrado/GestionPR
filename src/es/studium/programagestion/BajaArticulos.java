@@ -76,9 +76,36 @@ public class BajaArticulos implements WindowListener, ActionListener {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
+				if(e.getSource() == btnaceptar) {
+					dlgSeguro.setLayout(new FlowLayout());
+					dlgSeguro.setSize(200, 100);
+					dlgSeguro.add(lblMensaje);
+					dlgSeguro.add(btnSi);
+					dlgSeguro.add(btnNo);
+					dlgSeguro.setVisible(true);
+				}
+				else if(e.getSource() == btncancelar) {
+					ventanaBajaArticulo.setVisible(false);
+				}
+				else if(e.getSource() == btnSi) {
+					String selectedArticulo = chcarticulo.getSelectedItem();
+					if (selectedArticulo != null && !selectedArticulo.equals("")) {
+						String idArticulo = selectedArticulo.split("-")[0];
+						boolean success = datos.eliminarArticulo(idArticulo);
+						if (success) {
+							System.out.println("Artículo eliminado correctamente");
+						} else {
+							System.out.println("Error al eliminar el artículo");
+						}
+					}
+					dlgSeguro.setVisible(false);
+					ventanaBajaArticulo.setVisible(false);
+				}
+				else if(e.getSource() == btnNo) {
+					dlgSeguro.setVisible(false);
+				}
 			}
+			
 			@Override
 			public void windowOpened(WindowEvent e) {
 				// TODO Auto-generated method stub

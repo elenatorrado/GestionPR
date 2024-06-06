@@ -2,11 +2,14 @@
 
 package es.studium.programagestion;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.StringTokenizer;
 
 import com.itextpdf.kernel.font.PdfFont;
@@ -23,6 +26,8 @@ public class Datos {
 	Connection connection = null;
 	Statement statement = null;
 	ResultSet rs = null;
+	 
+	
 
 	Datos() {
 	}
@@ -108,6 +113,11 @@ public class Datos {
 		}
 
 	// Consulta Tickets
+		public String formatofecha(Date fecha) {
+			SimpleDateFormat fechaNueva= new SimpleDateFormat("dd/mm/yyyy");
+		return fechaNueva.format(fecha);
+		}
+		
 		public String ConsultaTickets() {
 			String contenido = "";
 			String sentencia = "SELECT * FROM tickets;";
@@ -117,11 +127,13 @@ public class Datos {
 					rs = statement.executeQuery(sentencia);
 
 			while (rs.next()) {
-					contenido = contenido 
+				Date fecha=rs.getDate("fechaTickets");
+				String nuevaFecha=formatofecha(fecha);
+					contenido += contenido 
 						+ rs.getString("idTickets") + "-" 
 						+ rs.getString("descripcionTickets") 
 						+ "-"
-						+ rs.getString("fechaTickets") 
+						+nuevaFecha
 						+ "-" + rs.getString("importeTickets") 
 						+ "-"
 						+ "-" + rs.getString("idEmpleadoFK") + "\n";
@@ -270,27 +282,35 @@ public class Datos {
 	// BAJA
 
 	// Baja Empleado
-		public String[] rellenarChoiceEmpleado() {
+				// Método para rellenar el Choice con los empleados
+			    public String[] rellenarChoiceEmpleado() {
+			        String elementos = "Elegir un Empleado...*";
+			        String sentencia = "SELECT * FROM empleados;";
+			        try {
+			            statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			            rs = statement.executeQuery(sentencia);
+			            while (rs.next()) {
+			                elementos = elementos + rs.getString("idEmpleado") + "-" + rs.getString("nombreEmpleado") + "*";
+			            }
+			        } catch (SQLException e) {
+			            System.err.println(e);
+			        }
+			        return elementos.split("\\*");
+			    }
 
-		String elementos = "Elegir un Empleado...*";
-		String sentencia = "SELECT * FROM empleado;";
-
-		try {
-			statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-			rs = statement.executeQuery(sentencia);
-			while (rs.next()) {
-					elementos = elementos 
-							+ rs.getString("idEmpleado") 
-							+ "-" + rs.getString("nombreEmpleado") 
-							+ "-"
-							+ rs.getString("apellidoEmpleado") 
-							+ "-" + rs.getString("puestoEmpleado")
-							+ "*";}
-			} catch (SQLException e) {
-				System.out.println(e);
-			}
-			return elementos.split("\\*");
-		}
+			    // Método para eliminar un empleado
+			    public void eliminarEmpleado(int idEmpleado, String usuario) {
+			        String sentencia = "DELETE FROM empleados WHERE idEmpleado = " + idEmpleado + ";";
+			        try {
+			            statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			            statement.executeUpdate(sentencia);
+			            utilidad.escrituraFicheroLog(usuario, sentencia);
+			        } catch (SQLException sqle) {
+			            utilidad.escrituraFicheroLog(usuario, "Error en la sentencia SQL " + sqle.getMessage());
+			            // System.out.println("Error en la sentencia SQL: " + sqle.toString());
+			        }
+			    }
+			
 
 	// Baja Tickets
 		public String[] rellenarChoiceTickets() {
@@ -316,6 +336,19 @@ public class Datos {
 			return elementos.split("\\*");
 		
 		}
+		// Método para eliminar un ticket
+	    public void eliminarTicket(int idTicket, String usuario) {
+	        String sentencia = "DELETE FROM tickets WHERE idTicket = " + idTicket + ";";
+	        try {
+	            statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+	            statement.executeUpdate(sentencia);
+	            utilidad.escrituraFicheroLog(usuario, sentencia);
+	        } catch (SQLException sqle) {
+	            utilidad.escrituraFicheroLog(usuario, "Error en la sentencia SQL " + sqle.getMessage());
+	            // System.out.println("Error en la sentencia SQL: " + sqle.toString());
+	        }
+	    }
+	
 		// Baja Usuario
 				public String[] rellenarChoiceUsuario() {
 
@@ -337,6 +370,19 @@ public class Datos {
 					return elementos.split("\\*");
 				
 				}
+				//Metodo Eliminar Usuario 
+				public void eliminarUsuario(int idUsuario, String usuario) {
+				    String sentencia = "DELETE FROM usuarios WHERE idUsuario = " + idUsuario + ";";
+				    try {
+				        statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+				        statement.executeUpdate(sentencia);
+				        utilidad.escrituraFicheroLog(usuario, sentencia);
+				    } catch (SQLException sqle) {
+				        utilidad.escrituraFicheroLog(usuario, "Error en la sentencia SQL " + sqle.getMessage());
+				        // System.out.println("Error en la sentencia SQL: " + sqle.toString());
+				    }
+				}
+				
 				
 				// Baja Articulo
 				public String[] rellenarChoiceArticulo() {
@@ -367,6 +413,50 @@ public class Datos {
 				
 					
 				}
+				// Método para eliminar un artículo
+				public void eliminarArticulo(String idArticulo, String usuario) {
+				    String sentencia = "DELETE FROM articulo WHERE idArticulo = " + idArticulo + ";";
+
+				    try {
+				        statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+				        statement.executeUpdate(sentencia);
+				        utilidad.escrituraFicheroLog(usuario, sentencia);
+				    } catch (SQLException sqle) {
+				        utilidad.escrituraFicheroLog(usuario, "Error en la sentencia SQL " + sqle.getMessage());
+				        // System.out.println("Error en la sentencia SQL: " + sqle.toString());
+				    }
+				}
+				
+				//Baja Compras
+				  // Método para rellenar el Choice con las compras
+			    public String[] rellenarChoiceCompras() {
+			        String elementos = "Elegir una Compra...*";
+			        String sentencia = "SELECT * FROM compras;";
+			        try {
+			            statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			            rs = statement.executeQuery(sentencia);
+			            while (rs.next()) {
+			                elementos = elementos + rs.getString("idCompra") + "-" + rs.getString("idTicketsFK") + "-" + rs.getString("idArticulosFK")+"*";
+			            }
+			        } catch (SQLException e) {
+			            System.err.println(e);
+			        }
+			        return elementos.split("\\*");
+			    }
+
+			    // Método para eliminar una compra
+			    public boolean eliminarCompra(int idCompra, String usuario) {
+			        String sentencia = "DELETE FROM compras WHERE idCompra = " + idCompra + ";";
+			        try {
+			            statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			            statement.executeUpdate(sentencia);
+			            utilidad.escrituraFicheroLog(usuario, sentencia);
+			        } catch (SQLException sqle) {
+			            utilidad.escrituraFicheroLog(usuario, "Error en la sentencia SQL " + sqle.getMessage());
+			            // System.out.println("Error en la sentencia SQL: " + sqle.toString());
+			        }
+			    }
+			
 				//PDF
 				public void process(Table tabla,String registro,PdfFont fuente, boolean Cabecera)
 				{
@@ -382,7 +472,102 @@ public class Datos {
 					
 
 				}
+//MODIFICACION
+				
+				//USUARIOS
+				// Método para obtener la lista de usuarios
+			    public String[] RellenarchcUsuarioMod() {
+			        String elementos = "Elegir un Usuario...*";
+			        String sentencia = "SELECT * FROM usuario;";
+
+			        try {
+			            statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			            rs = statement.executeQuery(sentencia);
+			            while (rs.next()) {
+			                elementos = elementos + rs.getString("nombreUsuario") + "*";
+			            }
+			        } catch (SQLException e) {
+			            System.out.println(e);
+			        }
+			        return elementos.split("\\*");
+			    }
+
+			    // Método para modificar el usuario
+			    public boolean modificarUsuario(String nombreUsuario, String nuevoValor) {
+			        boolean modificacionCorrecta = true;
+			        String sentencia = "UPDATE usuario SET claveUsuario = SHA2('" + nuevoValor + "', 256) WHERE nombreUsuario = '" + nombreUsuario + "';";
+			        System.out.println(sentencia);
+
+			        try {
+			            statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			            statement.executeUpdate(sentencia);
+			        } catch (SQLException e) {
+			            System.out.println("Error en la sentencia SQL:" + e.toString());
+			            modificacionCorrecta = false;
+			        }
+
+			        return modificacionCorrecta;
+			    }
+			
+		
+			//TICKETS
+//Método para obtener la lista de tickets
+public String[] rellenarChoiceTicketsMod() {
+    String elementos = "Elegir un Ticket...*";
+    String sentencia = "SELECT * FROM tickets;";
+
+    try {
+        statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        rs = statement.executeQuery(sentencia);
+        while (rs.next()) {
+            elementos = elementos 
+                + rs.getString("idTickets") + "-" 
+                + rs.getString("descripcionTickets") + "-" 
+                + rs.getString("fechaTickets") + "-" 
+                + rs.getString("importeTickets") + "*";
+        }
+    } catch (SQLException e) {
+        System.out.println(e);
+    }
+    return elementos.split("\\*");
 }
 
+// Método para modificar el ticket
+public boolean modificarTicket(String ticketSeleccionado, String nuevaDescripcion, String nuevoImporte) {
+    boolean modificacionCorrecta = true;
+    String idTicket = ticketSeleccionado.split("-")[0];
+    String sentencia = "UPDATE tickets SET descripcionTickets = '" + nuevaDescripcion + "', importeTickets = " + nuevoImporte + " WHERE idTickets = " + idTicket + ";";
+    System.out.println(sentencia);
+
+    try {
+        statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        statement.executeUpdate(sentencia);
+    } catch (SQLException e) {
+        System.out.println("Error en la sentencia SQL:" + e.toString());
+        modificacionCorrecta = false;
+    }
+
+    return modificacionCorrecta;
+}
+
+
+
+//Ayuda 
+//Método ayuda
+public void ayuda()
+{
+    try
+    {
+        Runtime.getRuntime().exec("hh.exe manual_usuario.chm");
+    }
+    catch(IOException e)
+    {
+        e.printStackTrace();
+    }
+}
+}			
+				
+				
+	
 				
 

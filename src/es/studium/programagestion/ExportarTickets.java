@@ -40,13 +40,13 @@ public class ExportarTickets {
 				//Cabecera Negrita
 					PdfFont fuenteNegrita=PdfFontFactory.createFont(StandardFonts.HELVETICA_BOLD);
 				//Ancho y Creacion de la Tabla
-					Table tabla=new Table(UnitValue.createPercentArray(new float[] {1,2,2,2})).useAllAvailableWidth();
+					Table tabla=new Table(UnitValue.createPercentArray(new float[] {1,2,2,2,2})).useAllAvailableWidth();
 				//Conexion a BD
 					exportarpdf.conectar();
 				//Array para guardar lo que devuelve la consulta
 					String[] registro= exportarpdf.ConsultaTickets().split("\n");
 				//Añadimos la cabecera
-					exportarpdf.process(tabla,"id - Descripcion - Fecha Tickets - id Empleado",fuenteNegrita, true);
+					exportarpdf.process(tabla,"id - Descripcion - Fecha Tickets - Importe - id Empleado",fuenteNegrita, true);
 				//Añadimos los registros de la tabla empleado
 					for(int i=0;i<registro.length;i++) {
 						exportarpdf.process(tabla,registro[i],fuente, false);

@@ -34,13 +34,13 @@ public class ExportarCompras {
 				//Cabecera Negrita
 					PdfFont fuenteNegrita=PdfFontFactory.createFont(StandardFonts.HELVETICA_BOLD);
 				//Ancho y Creacion de la Tabla
-					Table tabla=new Table(UnitValue.createPercentArray(new float[] {1,2})).useAllAvailableWidth();
+					Table tabla=new Table(UnitValue.createPercentArray(new float[] {1,2,2})).useAllAvailableWidth();
 				//Conexion a BD
 					exportarpdf.conectar();
 				//Array para guardar lo que devuelve la consulta
 					String[] registro= exportarpdf.ConsultaCompra().split("\n");
 				//Añadimos la cabecera
-					exportarpdf.process(tabla,"Tickets - Articulos ",fuenteNegrita, true);
+					exportarpdf.process(tabla,"Compras - Tickets - Articulos ",fuenteNegrita, true);
 				//Añadimos los registros de la tabla empleado
 					for(int i=0;i<registro.length;i++) {
 						exportarpdf.process(tabla,registro[i],fuente, false);

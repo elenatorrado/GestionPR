@@ -1,6 +1,7 @@
 	package es.studium.programagestion;
 
-	import java.awt.FlowLayout;
+	import java.awt.Button;
+import java.awt.FlowLayout;
 	import java.awt.Frame;
 	import java.awt.MenuBar;
 	import java.awt.MenuItem;
@@ -17,6 +18,7 @@
 		Menu mTickets= new Menu("Tickets");
 		Menu mArticulos= new Menu("Artículos");
 		Menu mCompras= new Menu("Compras");
+		Datos datos=new Datos();
 		
 
 		//Añadimos los Items de cada tabla
@@ -45,6 +47,9 @@
 		MenuItem comprasBaja= new MenuItem("Baja");
 		MenuItem comprasModificacion= new MenuItem("Modificación");
 		MenuItem comprasConsulta= new MenuItem("Consulta");
+		
+		//Boton Ayuda
+		Button btnayuda= new Button("Ayuda");
 		
 	//Distrubuimos los elementos en la ventana
 		 public PantallaPrincipal()
@@ -111,6 +116,10 @@
 			ticketsAlta.addActionListener(this);
 			ticketsBaja.addActionListener(this);
 			ticketsModificacion.addActionListener(this);
+			
+			//BOTON AYUDA
+			btnayuda.addActionListener(this);
+			pantallaPrincipal.add(btnayuda);
 
 
 
@@ -191,7 +200,12 @@
 				{
 					new ConsultaCompra();
 				}
-		}
+			 //Ayuda
+			 if(e.getSource().equals(btnayuda)){
+				 datos.ayuda();
+				 
+			 }
+			 }
 				
 		@Override
 		public void windowOpened(WindowEvent e) {

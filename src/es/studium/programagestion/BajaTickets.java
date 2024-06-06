@@ -57,7 +57,30 @@
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
+			if (e.getSource() == btnaceptar) {
+	            // Mostrar diálogo de confirmación
+	            dlgSeguro.setLayout(new FlowLayout());
+	            dlgSeguro.setSize(200, 100);
+	            dlgSeguro.add(lblMensaje);
+	            dlgSeguro.add(btnSi);
+	            dlgSeguro.add(btnNo);
+	            dlgSeguro.setVisible(true);
+	        } else if (e.getSource() == btncancelar) {
+	            ventanaBajaTickets.setVisible(false);
+	        } else if (e.getSource() == btnSi) {
+	            // Eliminar el ticket seleccionado
+	            String idTicket = chcTickets.getSelectedItem().split("-")[0];
+	            if (datos.eliminarTicket(Integer.parseInt(idTicket), "usuario_actual")) {
+	                System.out.println("Ticket eliminado con éxito.");
+	            } else {
+	                System.err.println("Error al eliminar el ticket.");
+	            }
+	            dlgSeguro.setVisible(false);
+	            ventanaBajaTickets.setVisible(false);
+	        } else if (e.getSource() == btnNo) {
+	            dlgSeguro.setVisible(false);
+	        }
+	    }
 
 		}
 

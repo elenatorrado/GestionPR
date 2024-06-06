@@ -58,7 +58,30 @@ public class BajaEmpleado implements WindowListener, ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		if (e.getSource() == btnAceptar) {
+            // Mostrar diálogo de confirmación
+            dlgSeguro.setLayout(new FlowLayout());
+            dlgSeguro.setSize(200, 100);
+            dlgSeguro.add(lblMensaje);
+            dlgSeguro.add(btnSi);
+            dlgSeguro.add(btnNo);
+            dlgSeguro.setVisible(true);
+        } else if (e.getSource() == btnCancelar) {
+            ventanaBaja.setVisible(false);
+        } else if (e.getSource() == btnSi) {
+            // Eliminar el empleado seleccionado
+            String idEmpleado = choEmpleados.getSelectedItem().split("-")[0];
+            if (datos.eliminarEmpleado(Integer.parseInt(idEmpleado), "usuario_actual")) {
+                System.out.println("Empleado eliminado con éxito.");
+            } else {
+                System.err.println("Error al eliminar el empleado.");
+            }
+            dlgSeguro.setVisible(false);
+            ventanaBaja.setVisible(false);
+        } else if (e.getSource() == btnNo) {
+            dlgSeguro.setVisible(false);
+        }
+    }
 
 	}
 
