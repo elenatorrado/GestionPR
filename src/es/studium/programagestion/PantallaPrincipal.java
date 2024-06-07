@@ -147,6 +147,10 @@ import java.awt.FlowLayout;
 				{
 					new BajaEmpleado();
 				}
+			 if (e.getSource().equals(empleadoModificacion))
+				{
+					new ModificacionesEmpleados();
+				}
 			 //Articulos
 			 if (e.getSource().equals(articulosAlta))
 				{

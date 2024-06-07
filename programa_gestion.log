@@ -1,0 +1,1 @@
+2024-06-07 12:37:31 - usuario_actual - Error en la sentencia SQL Cannot delete or update a parent row: a foreign key constraint fails (`gestionbd`.`tickets`, CONSTRAINT `tickets_ibfk_1` FOREIGN KEY (`idEmpleadoFK`) REFERENCES `empleado` (`idEmpleado`))

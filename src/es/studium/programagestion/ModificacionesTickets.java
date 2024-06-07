@@ -53,7 +53,7 @@ public class ModificacionesTickets implements WindowListener, ActionListener {
 
         // Configurar el diálogo de confirmación
         dlgSeguro.setLayout(new FlowLayout());
-        dlgSeguro.setSize(200, 250);
+        dlgSeguro.setSize(300, 150);
         dlgSeguro.add(lblMensaje);
         dlgSeguro.add(btnSi);
         dlgSeguro.add(btnNo);

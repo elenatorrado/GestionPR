@@ -283,35 +283,38 @@ public class Datos {
 
 	// Baja Empleado
 				// Método para rellenar el Choice con los empleados
-			    public String[] rellenarChoiceEmpleado() {
-			        String elementos = "Elegir un Empleado...*";
-			        String sentencia = "SELECT * FROM empleados;";
-			        try {
-			            statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-			            rs = statement.executeQuery(sentencia);
-			            while (rs.next()) {
-			                elementos = elementos + rs.getString("idEmpleado") + "-" + rs.getString("nombreEmpleado") + "*";
-			            }
-			        } catch (SQLException e) {
-			            System.err.println(e);
-			        }
-			        return elementos.split("\\*");
-			    }
+				public String[] rellenarChoiceEmpleado() {
+				    String elementos = "Elegir un Empleado...*";
+				    String sentencia = "SELECT idEmpleado, nombreEmpleado, apellidoEmpleado FROM empleado;";
+				    try {
+				        statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+				        rs = statement.executeQuery(sentencia);
+				        while (rs.next()) {
+				            elementos = elementos + rs.getString("idEmpleado") + "-" + rs.getString("nombreEmpleado") +  "-" + rs.getString("apellidoEmpleado") +"*";
+				        }
+				    } catch (SQLException e) {
+				        System.err.println(e);
+				    }
+				    return elementos.split("\\*");
+				}
 
-			    // Método para eliminar un empleado
-			    public void eliminarEmpleado(int idEmpleado, String usuario) {
-			        String sentencia = "DELETE FROM empleados WHERE idEmpleado = " + idEmpleado + ";";
-			        try {
-			            statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-			            statement.executeUpdate(sentencia);
-			            utilidad.escrituraFicheroLog(usuario, sentencia);
-			        } catch (SQLException sqle) {
-			            utilidad.escrituraFicheroLog(usuario, "Error en la sentencia SQL " + sqle.getMessage());
-			            // System.out.println("Error en la sentencia SQL: " + sqle.toString());
-			        }
-			    }
+				// Método para eliminar un empleado
+				public boolean eliminarEmpleado(int idEmpleado, String usuario) {
+				    String sentencia = "DELETE FROM empleado WHERE idEmpleado = " + idEmpleado + ";";
+				    try {
+				        statement = connection.createStatement();
+				        statement.executeUpdate(sentencia);
+				        Utilidad.escrituraFicheroLog(usuario, sentencia);
+				    } catch (SQLException sqle) {
+				        Utilidad.escrituraFicheroLog(usuario, "Error en la sentencia SQL " + sqle.getMessage());
+				        // System.out.println("Error en la sentencia SQL: " + sqle.toString());
+				    }
+					
+				}
+
 			
-
+			    
+			 
 	// Baja Tickets
 		public String[] rellenarChoiceTickets() {
 
@@ -342,9 +345,9 @@ public class Datos {
 	        try {
 	            statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 	            statement.executeUpdate(sentencia);
-	            utilidad.escrituraFicheroLog(usuario, sentencia);
+	            Utilidad.escrituraFicheroLog(usuario, sentencia);
 	        } catch (SQLException sqle) {
-	            utilidad.escrituraFicheroLog(usuario, "Error en la sentencia SQL " + sqle.getMessage());
+	            Utilidad.escrituraFicheroLog(usuario, "Error en la sentencia SQL " + sqle.getMessage());
 	            // System.out.println("Error en la sentencia SQL: " + sqle.toString());
 	        }
 	    }
@@ -376,9 +379,9 @@ public class Datos {
 				    try {
 				        statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 				        statement.executeUpdate(sentencia);
-				        utilidad.escrituraFicheroLog(usuario, sentencia);
+				        Utilidad.escrituraFicheroLog(usuario, sentencia);
 				    } catch (SQLException sqle) {
-				        utilidad.escrituraFicheroLog(usuario, "Error en la sentencia SQL " + sqle.getMessage());
+				        Utilidad.escrituraFicheroLog(usuario, "Error en la sentencia SQL " + sqle.getMessage());
 				        // System.out.println("Error en la sentencia SQL: " + sqle.toString());
 				    }
 				}
@@ -420,9 +423,9 @@ public class Datos {
 				    try {
 				        statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 				        statement.executeUpdate(sentencia);
-				        utilidad.escrituraFicheroLog(usuario, sentencia);
+				        Utilidad.escrituraFicheroLog(usuario, sentencia);
 				    } catch (SQLException sqle) {
-				        utilidad.escrituraFicheroLog(usuario, "Error en la sentencia SQL " + sqle.getMessage());
+				        Utilidad.escrituraFicheroLog(usuario, "Error en la sentencia SQL " + sqle.getMessage());
 				        // System.out.println("Error en la sentencia SQL: " + sqle.toString());
 				    }
 				}
@@ -445,14 +448,14 @@ public class Datos {
 			    }
 
 			    // Método para eliminar una compra
-			    public boolean eliminarCompra(int idCompra, String usuario) {
+			    public void eliminarCompra(int idCompra, String usuario) {
 			        String sentencia = "DELETE FROM compras WHERE idCompra = " + idCompra + ";";
 			        try {
 			            statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			            statement.executeUpdate(sentencia);
-			            utilidad.escrituraFicheroLog(usuario, sentencia);
+			            Utilidad.escrituraFicheroLog(usuario, sentencia);
 			        } catch (SQLException sqle) {
-			            utilidad.escrituraFicheroLog(usuario, "Error en la sentencia SQL " + sqle.getMessage());
+			            Utilidad.escrituraFicheroLog(usuario, "Error en la sentencia SQL " + sqle.getMessage());
 			            // System.out.println("Error en la sentencia SQL: " + sqle.toString());
 			        }
 			    }
@@ -511,47 +514,159 @@ public class Datos {
 			
 		
 			//TICKETS
-//Método para obtener la lista de tickets
-public String[] rellenarChoiceTicketsMod() {
-    String elementos = "Elegir un Ticket...*";
-    String sentencia = "SELECT * FROM tickets;";
+			    //Método para obtener la lista de tickets
+			    public String[] rellenarChoiceTicketsMod() {
+			    	String elementos = "Elegir un Ticket...*";
+			    	String sentencia = "SELECT * FROM tickets;";
 
-    try {
-        statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        rs = statement.executeQuery(sentencia);
-        while (rs.next()) {
-            elementos = elementos 
-                + rs.getString("idTickets") + "-" 
-                + rs.getString("descripcionTickets") + "-" 
-                + rs.getString("fechaTickets") + "-" 
-                + rs.getString("importeTickets") + "*";
-        }
-    } catch (SQLException e) {
-        System.out.println(e);
-    }
-    return elementos.split("\\*");
+			    	try {
+			    		statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			    		rs = statement.executeQuery(sentencia);
+			    		while (rs.next()) {
+			    			elementos = elementos 
+			    					+ rs.getString("idTickets") + "-" 
+			    					+ rs.getString("descripcionTickets") + "-" 
+			    					+ rs.getString("fechaTickets") + "-" 
+			    					+ rs.getString("importeTickets") + "*";
+			    		}
+			    	} catch (SQLException e) {
+			    		System.out.println(e);
+			    	}
+			    	return elementos.split("\\*");
 }
+			 
+			    // Método para modificar el ticket
+			    	public boolean modificarTicket(String ticketSeleccionado, String nuevaDescripcion, String nuevoImporte) {
+			    		boolean modificacionCorrecta = true;
+			    		String idTicket = ticketSeleccionado.split("-")[0];
+			    		String sentencia = "UPDATE tickets SET descripcionTickets = '" + nuevaDescripcion + "', importeTickets = " + nuevoImporte + " WHERE idTickets = " + idTicket + ";";
+			    		System.out.println(sentencia);
 
-// Método para modificar el ticket
-public boolean modificarTicket(String ticketSeleccionado, String nuevaDescripcion, String nuevoImporte) {
-    boolean modificacionCorrecta = true;
-    String idTicket = ticketSeleccionado.split("-")[0];
-    String sentencia = "UPDATE tickets SET descripcionTickets = '" + nuevaDescripcion + "', importeTickets = " + nuevoImporte + " WHERE idTickets = " + idTicket + ";";
-    System.out.println(sentencia);
+			    		try {
+			    			statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			    			statement.executeUpdate(sentencia);
+			    		} catch (SQLException e) {
+			    			System.out.println("Error en la sentencia SQL:" + e.toString());
+			    			modificacionCorrecta = false;
+			    		}
 
-    try {
-        statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        statement.executeUpdate(sentencia);
-    } catch (SQLException e) {
-        System.out.println("Error en la sentencia SQL:" + e.toString());
-        modificacionCorrecta = false;
-    }
+			    		return modificacionCorrecta;
+			    	}
+		//ARTICULOS
+			    	  public String[] rellenarChoiceArticulosMod() {
+			    	        String elementos = "Elegir un Artículo...*";
+			    	        String sentencia = "SELECT * FROM articulos;";
 
-    return modificacionCorrecta;
-}
+			    	        try {
+			    	            statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			    	            rs = statement.executeQuery(sentencia);
+			    	            while (rs.next()) {
+			    	                elementos = elementos 
+			    	                    + rs.getString("idArticulo") + "-" 
+			    	                    + rs.getString("nombreArticulo") + "-" 
+			    	                    + rs.getString("descripcionArticulo") + "-" 
+			    	                    + rs.getString("precioArticulo") + "-" 
+			    	                    + rs.getString("stockArticulo") + "*";
+			    	            }
+			    	        } catch (SQLException e) {
+			    	            System.out.println(e);
+			    	        }
+			    	        return elementos.split("\\*");
+			    	    }
 
+			    	    public boolean modificarArticulo(String articuloSeleccionado, String nuevoNombre, String nuevaDescripcion, float nuevoPrecio, int nuevoStock) {
+			    	        boolean modificacionCorrecta = true;
+			    	        String idArticulo = articuloSeleccionado.split("-")[0];
+			    	        String sentencia = "UPDATE articulos SET nombreArticulo = '" + nuevoNombre + "', descripcionArticulo = '" + nuevaDescripcion + "', precioArticulo = " + nuevoPrecio + ", stockArticulo = " + nuevoStock + " WHERE idArticulo = " + idArticulo + ";";
+			    	        System.out.println(sentencia);
 
+			    	        try {
+			    	            statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			    	            statement.executeUpdate(sentencia);
+			    	        } catch (SQLException e) {
+			    	            System.out.println("Error en la sentencia SQL:" + e.toString());
+			    	            modificacionCorrecta = false;
+			    	        }
 
+			    	        return modificacionCorrecta;
+			    	    }
+			   //EMPLEADOS
+			    	    //Rellenamos el choice
+			    	    public String[] rellenarChoiceEmpleadosMod() {
+			    	        String elementos = "Elegir un Empleado...*";
+			    	        String sentencia = "SELECT * FROM empleado;";
+
+			    	        try {
+			    	            statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			    	            rs = statement.executeQuery(sentencia);
+			    	            while (rs.next()) {
+			    	                elementos = elementos 
+			    	                    + rs.getString("idEmpleado") + "-" 
+			    	                    + rs.getString("nombreEmpleado") + "-" 
+			    	                    + rs.getString("apellidoEmpleado") + "-" 
+			    	                    + rs.getString("puestoEmpleado") + "*";
+			    	            }
+			    	        } catch (SQLException e) {
+			    	            System.out.println(e);
+			    	        }
+			    	        return elementos.split("\\*");
+			    	    }
+			    	    
+			    	    //Modificamos Empleado
+			    	    public boolean modificarEmpleado(String empleadoSeleccionado, String nuevoNombre, String nuevoApellido, String nuevoPuesto) {
+			    	        boolean modificacionCorrecta = true;
+			    	        String idEmpleado = empleadoSeleccionado.split("-")[0];
+			    	        String sentencia = "UPDATE empleado SET nombreEmpleado = '" + nuevoNombre + "', apellidoEmpleado = '" + nuevoApellido + "', puestoEmpleado = '" + nuevoPuesto + "' WHERE idEmpleado = " + idEmpleado + ";";
+			    	        System.out.println(sentencia);
+
+			    	        try {
+			    	            statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			    	            statement.executeUpdate(sentencia);
+			    	        } catch (SQLException e) {
+			    	            System.out.println("Error en la sentencia SQL:" + e.toString());
+			    	            modificacionCorrecta = false;
+			    	        }
+
+			    	        return modificacionCorrecta;
+			    	    }
+			    	
+			   //Compras
+			    	    // Método para rellenar la lista de compras en la ventana de modificaciones
+			    	    public String[] rellenarChoiceComprasMod() {
+			    	        String elementos = "Elegir una Compra...*";
+			    	        String sentencia = "SELECT * FROM compra;";
+
+			    	        try {
+			    	            statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			    	            rs = statement.executeQuery(sentencia);
+			    	            while (rs.next()) {
+			    	                elementos = elementos
+			    	                        + rs.getString("idCompra") + "-"+ rs.getString("idTicketsFK") + "-"+ rs.getString("idArticulosFK")+"*";
+			    	                        // Aquí puedes añadir las otras columnas si las necesitas para la lista de compras
+			    	            }
+			    	        				} catch (SQLException e) {
+			    	        					System.out.println(e);
+			    	        				}
+			    	        	return elementos.split("\\*");
+			    	    }
+
+			    	    // Método para modificar una compra
+			    	    public boolean modificarCompra(String compraSeleccionada, String nuevoIdCompra) {
+			    	        boolean modificacionCorrecta = true;
+			    	        String idCompra = compraSeleccionada.split("-")[0];
+			    	        String sentencia = "UPDATE compra SET idCompra = '" + nuevoIdCompra + "' WHERE idCompra = " + idCompra + ";";
+
+			    	        try {
+			    	            statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			    	            statement.executeUpdate(sentencia);
+			    	        } catch (SQLException e) {
+			    	            System.out.println("Error en la sentencia SQL: " + e.toString());
+			    	            modificacionCorrecta = false;
+			    	        }
+
+			    	        return modificacionCorrecta;
+			    	    }
+			    	
 //Ayuda 
 //Método ayuda
 public void ayuda()

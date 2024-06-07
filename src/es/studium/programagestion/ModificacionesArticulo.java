@@ -61,7 +61,7 @@ public class ModificacionesArticulo implements WindowListener, ActionListener {
 
         // Configurar el cuadro de diálogo de confirmación
         dlgConfirmacion.setLayout(new FlowLayout());
-        dlgConfirmacion.setSize(200, 150);
+        dlgConfirmacion.setSize(300, 150);
         dlgConfirmacion.add(lblMensaje);
         dlgConfirmacion.add(btnSi);
         dlgConfirmacion.add(btnNo);
