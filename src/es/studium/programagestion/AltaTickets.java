@@ -1,7 +1,3 @@
-
-
-
-//Altas Tickets
 package es.studium.programagestion;
 
 import java.awt.Button;
@@ -17,125 +13,133 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 public class AltaTickets implements WindowListener, ActionListener {
-	//Creamos los elementos del Alta Empleado
-	Frame ventanaAltaTickets = new Frame ("Alta Tickets");
-	Label lbldescripcion= new Label("Descripción");
-	TextField txtdescripcion= new TextField(15);
-	Label lblfecha= new Label("Fecha");
-	TextField txtfecha= new TextField(15);
-	Label lblimporte= new Label("Importe");
-	TextField txtimporte= new TextField(15);
-	Label lblempleado=new Label("Empleado");
-	Choice chcempleado= new Choice();
-	Button btnaceptar= new Button("Aceptar");
-	Button btncancelar= new Button("Cancelar");
-	Datos datAltaTickets=new Datos();
-	Dialog dlgAltaTickets=new Dialog(ventanaAltaTickets,"Alta",true);
-	Label lblAltaTickets=new Label("Alta realizada correctamente");
-	//Ditribuimos los elementos en la ventana de Login
-		public AltaTickets()
-		{
-			ventanaAltaTickets.setLayout(new FlowLayout());
-			ventanaAltaTickets.setSize(250,190);
-			ventanaAltaTickets.setResizable(false);
-			ventanaAltaTickets.setVisible(true);
-			ventanaAltaTickets.addWindowListener(this);
-			ventanaAltaTickets.setLocationRelativeTo(null);
+    // Creamos los elementos del Alta Tickets
+    Frame ventanaAltaTickets = new Frame("Alta Tickets");
+    Label lbldescripcion = new Label("Descripción");
+    TextField txtdescripcion = new TextField(15);
+    Label lblfecha = new Label("Fecha");
+    TextField txtfecha = new TextField(15);
+    Label lblimporte = new Label("Importe");
+    TextField txtimporte = new TextField(15);
+    Label lblempleado = new Label("Empleado");
+    Choice chcempleado = new Choice();
+    Button btnaceptar = new Button("Aceptar");
+    Button btncancelar = new Button("Cancelar");
+    Datos datAltaTickets = new Datos();
+    Dialog dlgAltaTickets = new Dialog(ventanaAltaTickets, "Alta", true);
+    Label lblAltaTickets = new Label("Alta realizada correctamente");
 
-			//Añadimos los elementos a la ventana
-			ventanaAltaTickets.add(lbldescripcion);
-			ventanaAltaTickets.add(txtdescripcion);
-			ventanaAltaTickets.add(lblfecha);
-			ventanaAltaTickets.add(txtfecha);
-			ventanaAltaTickets.add(lblimporte);
-			ventanaAltaTickets.add(txtimporte);
-			ventanaAltaTickets.add(lblempleado);
-			ventanaAltaTickets.add(chcempleado);
-			ventanaAltaTickets.add(btnaceptar);
-			ventanaAltaTickets.add(btncancelar);
-			//Añadimos los botones
-			btnaceptar.addActionListener(this);
-			btncancelar.addActionListener(this);
-		}
-		
-	
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		//Con esto si pulsamos cancelar se borra el texto escrito
-				if(e.getSource().equals(btncancelar))
-				{
-					txtdescripcion.setText("");
-					txtfecha.setText("");
-					txtimporte.setText("");
-					txtdescripcion.requestFocus();
-				}
-				//Si clicamos en el botón aceptar 
-				if(e.getSource().equals(btnaceptar)) {
-					//Concetamos la BD con el Objeto previamente creado
-					datAltaTickets.conectar();
-					//Comprobamos que la sentencia fue ejecutada correctamente y que los datos son correctos
-					String descripcion=txtdescripcion.getText();
-					String fecha=txtfecha.getText();
-					String importe=txtimporte.getText();
-					boolean altaCorrecta=datAltaTickets.ticketsAlta(descripcion, fecha, importe);
+    // Distribuimos los elementos en la ventana de Alta
+    public AltaTickets() {
+        // Conectar a la base de datos
+        datAltaTickets.conectar();
 
-					//Añadimos el dialogo a la ventana del Alta
-					dlgAltaTickets.setLayout(new FlowLayout());
-					dlgAltaTickets.setSize(250,160);
-					dlgAltaTickets.setResizable(false);
-					dlgAltaTickets.addWindowListener(this);
+        // Añadimos los elementos a la ventana
+        ventanaAltaTickets.setLayout(new FlowLayout());
+        ventanaAltaTickets.setSize(250, 220);
+        ventanaAltaTickets.setResizable(false);
+        ventanaAltaTickets.setVisible(true);
+        ventanaAltaTickets.addWindowListener(this);
+        ventanaAltaTickets.setLocationRelativeTo(null);
 
-					//Si el Alta es correcta
-					if(altaCorrecta==true) 
-					{
-						lblAltaTickets.setText("Alta Realizada Correctamente");
-						dlgAltaTickets.add(lblAltaTickets);
-					}
-					//Si no se ha realizado correctamente el Alta
-					else
-					{
-						lblAltaTickets.setText("No se ha realizado el alta correctamente");
-					}
+        // Añadimos los elementos a la ventana
+        ventanaAltaTickets.add(lbldescripcion);
+        ventanaAltaTickets.add(txtdescripcion);
+        ventanaAltaTickets.add(lblfecha);
+        ventanaAltaTickets.add(txtfecha);
+        ventanaAltaTickets.add(lblimporte);
+        ventanaAltaTickets.add(txtimporte);
+        ventanaAltaTickets.add(lblempleado);
+        ventanaAltaTickets.add(chcempleado);
+        ventanaAltaTickets.add(btnaceptar);
+        ventanaAltaTickets.add(btncancelar);
 
-					dlgAltaTickets.setVisible(true);
-				}
-			}
-				
-			
-		
-	
-	@Override
-	public void windowOpened(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void windowClosing(WindowEvent e) {
-		System.exit(0);
-	}
-	@Override
-	public void windowClosed(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void windowIconified(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void windowDeiconified(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void windowActivated(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void windowDeactivated(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+        // Rellenamos el Choice con los empleados
+        for (String empleado : datAltaTickets.rellenarChoiceEmpleados()) {
+            chcempleado.add(empleado);
+        }
+
+        // Añadimos los botones
+        btnaceptar.addActionListener(this);
+        btncancelar.addActionListener(this);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        // Con esto si pulsamos cancelar se borra el texto escrito
+        if (e.getSource().equals(btncancelar)) {
+            txtdescripcion.setText("");
+            txtfecha.setText("");
+            txtimporte.setText("");
+            chcempleado.select(0);
+            txtdescripcion.requestFocus();
+        }
+        // Si clicamos en el botón aceptar
+        if (e.getSource().equals(btnaceptar)) {
+            // Comprobamos que la conexión está establecida
+            if (datAltaTickets.connection == null) {
+                System.out.println("Error: No hay conexión a la base de datos");
+                return;
+            }
+
+            // Comprobamos que la sentencia fue ejecutada correctamente y que los datos son correctos
+            String descripcion = txtdescripcion.getText();
+            String fecha = txtfecha.getText();
+            String importe = txtimporte.getText();
+            String empleado = chcempleado.getSelectedItem().split("-")[0]; // Obtener solo el id del empleado
+
+            boolean altaCorrecta = datAltaTickets.ticketsAlta(descripcion, fecha, importe, empleado);
+
+            // Añadimos el diálogo a la ventana del Alta
+            dlgAltaTickets.setLayout(new FlowLayout());
+            dlgAltaTickets.setSize(250, 160);
+            dlgAltaTickets.setResizable(false);
+            dlgAltaTickets.addWindowListener(this);
+
+            // Si el Alta es correcta
+            if (altaCorrecta) {
+                lblAltaTickets.setText("Alta realizada correctamente");
+            } else {
+                lblAltaTickets.setText("No se ha realizado el alta correctamente");
+            }
+
+            dlgAltaTickets.add(lblAltaTickets);
+            dlgAltaTickets.setVisible(true);
+        }
+    }
+
+    @Override
+    public void windowOpened(WindowEvent e) {
+        // No implementado
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+        System.exit(0);
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+        // No implementado
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+        // No implementado
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+        // No implementado
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+        // No implementado
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
+        // No implementado
+    }
 }

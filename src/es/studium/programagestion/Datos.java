@@ -209,7 +209,7 @@ public class Datos {
 			}
 	// ALTAS
 
-	// Alta Empleado
+	//  Empleado
 		public boolean empleadoAlta(String nombre, String apellido, String puesto) {
 		boolean altaCorrecta = true;
 		String sentenciaSQL = "INSERT INTO Empleado VALUES (NULL,'" + nombre + "', '" + apellido + "','" + puesto
@@ -227,58 +227,146 @@ public class Datos {
 		return altaCorrecta;
 		}
 
-		// Alta Tickets
-			public boolean ticketsAlta(String descripcionTicket, String fechaTicket, String importe) {
-				boolean altaCorrecta = true;
-				String sentenciaSQL = "INSERT INTO Empleado VALUES (NULL,'" + descripcionTicket + "', '" + fechaTicket + "','"
-						+ importe + "');";
-				System.out.println(sentenciaSQL);
+		// Tickets
+		 // Método para dar de alta un ticket
+			public boolean ticketsAlta(String descripcion, String fecha, String importe, String empleado) {
+	        boolean altaCorrecta = true;
+	        String sentenciaSQL = "INSERT INTO tickets VALUES (NULL, '" + descripcion + "', '" + fecha + "', '" + importe + "', '" + empleado + "');";
+	        System.out.println(sentenciaSQL);
+
+	        try {
+	            statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+	            statement.executeUpdate(sentenciaSQL);
+	        } catch (SQLException e) {
+	            System.out.println("Error en la sentencia SQL:" + e.toString());
+	            altaCorrecta = false;
+	        }
+
+	        return altaCorrecta;
+	    }
+
+	    // Método para rellenar el Choice con los empleados
+	    public String[] rellenarChoiceEmpleados() {
+	        String elementos = "Elegir un Empleado...*";
+	        String sentencia = "SELECT idEmpleado, nombreEmpleado FROM empleado;";
+	        try {
+	            statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+	            rs = statement.executeQuery(sentencia);
+	            while (rs.next()) {
+	                elementos += rs.getString("idEmpleado") + "-" + rs.getString("nombreEmpleado") + "*";
+	            }
+	        } catch (SQLException e) {
+	            System.err.println(e);
+	        }
+	        return elementos.split("\\*");
+	    }
+	
+			// Articulos
+			// Método para dar de alta un artículo
+		    public boolean articulosAlta(String nombreArticulo, String descripcionArticulo, float precioArticulo, int stockArticulo, int idTicketsFK) {
+		        boolean altaCorrecta = true;
+		        String sentenciaSQL = "INSERT INTO Articulos VALUES (NULL, '" + nombreArticulo + "', '" + descripcionArticulo + "', " + idTicketsFK +  ");";
+		        System.out.println(sentenciaSQL);
+
+		        try {
+		            statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+		            statement.executeUpdate(sentenciaSQL);
+		        } catch (SQLException e) {
+		            System.out.println("Error en la sentencia SQL:" + e.toString());
+		            altaCorrecta = false;
+		        }
+
+		        return altaCorrecta;
+		    }
+
+		    // Método para rellenar el Choice con los tickets
+		    public String[] rellenarChoiceTicketsAlta() {
+		        String elementos = "Elegir un Ticket...*";
+		        String sentencia = "SELECT idTickets FROM tickets;";
+		        try {
+		            statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+		            rs = statement.executeQuery(sentencia);
+		            while (rs.next()) {
+		                elementos += rs.getString("idTickets") + "*";
+		            }
+		        } catch (SQLException e) {
+		            System.err.println(e);
+		        }
+		        return elementos.split("\\*");
+		    }
+		    
+		    //COMPRAS
+		    
 		
-				try {
-					statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-					statement.executeUpdate(sentenciaSQL);
-				} catch (SQLException e) {
-					System.out.println("Error en la sentencia SQL:" + e.toString());
-					altaCorrecta = false;
-				}
+		    // Método para dar de alta una compra
+		    public boolean comprasAlta(String tickets, String articulos) {
+		        boolean altaCorrecta = true;
+		        String sentenciaSQL = "INSERT INTO compra VALUES (NULL, '" + tickets + "', '" + articulos + "');";
+		        System.out.println(sentenciaSQL);
 
-				return altaCorrecta;
-			}
+		        try {
+		            statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+		            statement.executeUpdate(sentenciaSQL);
+		        } catch (SQLException e) {
+		            System.out.println("Error en la sentencia SQL:" + e.toString());
+		            altaCorrecta = false;
+		        }
+
+		        return altaCorrecta;
+		    }
+
+		    // Método para rellenar el Choice con los tickets
+		    public String[] rellenarChoiceTicketsAltaCompra() {
+		        String elementos = "Elegir un Ticket...*";
+		        String sentencia = "SELECT idTickets FROM tickets;";
+		        try {
+		            statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+		            rs = statement.executeQuery(sentencia);
+		            while (rs.next()) {
+		                elementos += rs.getString("idTickets") + "*";
+		            }
+		        } catch (SQLException e) {
+		            System.err.println(e);
+		        }
+		        return elementos.split("\\*");
+		    }
+
+		    // Método para rellenar el Choice con los artículos
+		    public String[] rellenarChoiceArticulosAltaCompra() {
+		        String elementos = "Elegir un Artículo...*";
+		        String sentencia = "SELECT idArticulo FROM articulos;";
+		        try {
+		            statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+		            rs = statement.executeQuery(sentencia);
+		            while (rs.next()) {
+		                elementos += rs.getString("idArticulo")  + "*";
+		            }
+		        } catch (SQLException e) {
+		            System.err.println(e);
+		        }
+		        return elementos.split("\\*");
+		    }
+		//Usuario
+		    
+		    // Método para dar de alta un usuario
+		    public boolean usuarioAlta(String nombre, String tipoUsuario, String password) {
+		        boolean altaCorrecta = true;
+		        String sentenciaSQL = "INSERT INTO usuarios (nombreUsuario, tipoUsuario, password) VALUES ('" + nombre + "', '" + tipoUsuario + "', '" + password + "');";
+		        System.out.println(sentenciaSQL);
+
+		        try {
+		            statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+		            statement.executeUpdate(sentenciaSQL);
+		        } catch (SQLException e) {
+		            System.out.println("Error en la sentencia SQL: " + e.toString());
+		            altaCorrecta = false;
+		        }
+
+		        return altaCorrecta;
+		    }
+		
+			    
 			
-			// Alta Articulos
-				public boolean articulosAlta(String nombreArticulo , String descripcionArticulo, float importeTickets, int stock) {
-				boolean altaCorrecta = true;
-				String sentenciaSQL = "INSERT INTO Empleado VALUES (NULL,'" + nombreArticulo  + "', '" + descripcionArticulo + "','"
-						+ importeTickets+ "','"+ stock  + "');";
-				System.out.println(sentenciaSQL);
-
-				try {
-					statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-					statement.executeUpdate(sentenciaSQL);
-				} catch (SQLException e) {
-					System.out.println("Error en la sentencia SQL:" + e.toString());
-					altaCorrecta = false;
-				}
-
-				return altaCorrecta;
-			}	
-			// Alta Usuario
-				public boolean usuarioAlta(String nombreUsuario , String passwordUsuario, String password2) {
-				boolean altaCorrecta = true;
-				String sentenciaSQL = "INSERT INTO Empleado VALUES (NULL,'" + nombreUsuario  + "', '" + passwordUsuario + "');";
-				System.out.println(sentenciaSQL);
-
-				try {
-					statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-					statement.executeUpdate(sentenciaSQL);
-				} catch (SQLException e) {
-					System.out.println("Error en la sentencia SQL:" + e.toString());
-					altaCorrecta = false;
-				}
-
-				return altaCorrecta;
-			}			
-				
 	// BAJA
 
 	// Baja Empleado
@@ -388,7 +476,7 @@ public class Datos {
 				
 				
 				// Baja Articulo
-				public String[] rellenarChoiceArticulo() {
+				public String[] rellenarChoiceArticuloEliminar(String nombreArticulo) {
 
 					String elementos = "Elegir un Articulo...*";
 					String sentencia = "SELECT * FROM articulos;";
@@ -431,15 +519,32 @@ public class Datos {
 				}
 				
 				//Baja Compras
-				  // Método para rellenar el Choice con las compras
-			    public String[] rellenarChoiceCompras() {
-			        String elementos = "Elegir una Compra...*";
-			        String sentencia = "SELECT * FROM compras;";
+				
+				// Método para rellenar el Choice con los tickets
+			    public String[] rellenarChoiceTicketsBaj() {
+			        String elementos = "Elegir un Ticket...*";
+			        String sentencia = "SELECT idTicket FROM Tickets;";
 			        try {
 			            statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			            rs = statement.executeQuery(sentencia);
 			            while (rs.next()) {
-			                elementos = elementos + rs.getString("idCompra") + "-" + rs.getString("idTicketsFK") + "-" + rs.getString("idArticulosFK")+"*";
+			                elementos += rs.getString("idTicket") + "*";
+			            }
+			        } catch (SQLException e) {
+			            System.err.println(e);
+			        }
+			        return elementos.split("\\*");
+			    }
+
+			    // Método para rellenar el Choice con las compras según el ticket seleccionado
+			    public String[] rellenarChoiceCompras(String idTicket) {
+			        String elementos = "Elegir una Compra...*";
+			        String sentencia = "SELECT idCompra, descripcion FROM Compras WHERE idTicket = " + idTicket + ";";
+			        try {
+			            statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			            rs = statement.executeQuery(sentencia);
+			            while (rs.next()) {
+			                elementos += rs.getInt("idCompra") + "-" + rs.getString("descripcion") + "*";
 			            }
 			        } catch (SQLException e) {
 			            System.err.println(e);
@@ -448,15 +553,16 @@ public class Datos {
 			    }
 
 			    // Método para eliminar una compra
-			    public void eliminarCompra(int idCompra, String usuario) {
-			        String sentencia = "DELETE FROM compras WHERE idCompra = " + idCompra + ";";
+			    public boolean eliminarCompra(int idCompra, String usuarioActual) {
+			        String sentencia = "DELETE FROM Compras WHERE idCompra = " + idCompra + ";";
 			        try {
-			            statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			            statement = connection.createStatement();
 			            statement.executeUpdate(sentencia);
-			            Utilidad.escrituraFicheroLog(usuario, sentencia);
+			            Utilidad.escrituraFicheroLog(usuarioActual, sentencia);
+			            return true;
 			        } catch (SQLException sqle) {
-			            Utilidad.escrituraFicheroLog(usuario, "Error en la sentencia SQL " + sqle.getMessage());
-			            // System.out.println("Error en la sentencia SQL: " + sqle.toString());
+			            Utilidad.escrituraFicheroLog(usuarioActual, "Error en la sentencia SQL " + sqle.getMessage());
+			            return false;
 			        }
 			    }
 			

@@ -79,7 +79,7 @@ public class BajaUsuario implements WindowListener, ActionListener {
         }
     }
 		
-	}
+	
 
 	@Override
 	public void windowOpened(WindowEvent e) {
