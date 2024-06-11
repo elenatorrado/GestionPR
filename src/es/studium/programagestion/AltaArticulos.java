@@ -87,7 +87,7 @@ public class AltaArticulos implements WindowListener, ActionListener {
             float precio = Float.parseFloat(txtprecio.getText());
             int stock = Integer.parseInt(txtstock.getText());
 
-            boolean altaCorrecta = datAlta.articulosAlta(nombre, descripcion, precio, stock);
+            boolean altaCorrecta = datAlta.articulosAlta(nombre, descripcion, precio, stock,chctickets.getSelectedIndex());
 
             // Añadimos el dialogo a la ventana del Alta
             dlgAlta.setLayout(new FlowLayout());

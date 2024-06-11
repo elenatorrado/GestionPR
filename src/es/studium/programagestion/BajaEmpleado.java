@@ -12,7 +12,6 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 public class BajaEmpleado implements WindowListener, ActionListener {
-    // Creamos los elementos
     Frame ventanaBaja = new Frame("Baja Empleado");
     Label lblBaja = new Label("Elegir Empleado a Borrar: ");
     Choice choEmpleados = new Choice();
@@ -69,8 +68,10 @@ public class BajaEmpleado implements WindowListener, ActionListener {
             String idEmpleado = choEmpleados.getSelectedItem().split("-")[0];
             if (datos.eliminarEmpleado(Integer.parseInt(idEmpleado), "usuario_actual")) {
                 System.out.println("Empleado eliminado con éxito.");
+                mostrarDialogo("Empleado eliminado con éxito.");
             } else {
                 System.err.println("Error al eliminar el empleado.");
+                mostrarDialogo("Error al eliminar el empleado.");
             }
             dlgSeguro.setVisible(false);
             ventanaBaja.setVisible(false);
@@ -106,5 +107,22 @@ public class BajaEmpleado implements WindowListener, ActionListener {
 
     @Override
     public void windowDeactivated(WindowEvent e) {
+    }
+    
+    private void mostrarDialogo(String mensaje) {
+        Dialog dlgConfirmacion = new Dialog(ventanaBaja, "Confirmación", true);
+        Label lblMensaje = new Label(mensaje);
+        Button btnAceptar = new Button("Aceptar");
+        btnAceptar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dlgConfirmacion.dispose();
+            }
+        });
+        dlgConfirmacion.setLayout(new FlowLayout());
+        dlgConfirmacion.add(lblMensaje);
+        dlgConfirmacion.add(btnAceptar);
+        dlgConfirmacion.setSize(200, 100);
+        dlgConfirmacion.setLocationRelativeTo(null);
+        dlgConfirmacion.setVisible(true);
     }
 }

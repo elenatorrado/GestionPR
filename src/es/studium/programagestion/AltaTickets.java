@@ -105,6 +105,9 @@ public class AltaTickets implements WindowListener, ActionListener {
 
             dlgAltaTickets.add(lblAltaTickets);
             dlgAltaTickets.setVisible(true);
+
+            // Cerramos la conexión
+            datAltaTickets.desconectar();
         }
     }
 

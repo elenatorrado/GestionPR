@@ -1,4 +1,3 @@
-//Baja Compras
 package es.studium.programagestion;
 
 import java.awt.Button;
@@ -13,114 +12,100 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 public class BajaCompras implements WindowListener, ActionListener {
-	//Creamos los elementos del Alta Empleado
-			Frame ventanaBajaCompras = new Frame ("Baja Compras");
-			Label lblTickets= new Label("Tickets");
-			Choice chctickets=new Choice();
-			Label lblcompras= new Label(" Elige la Compra que quieres borrar");
-			Choice chccompras=new Choice();
-			Button btnaceptar= new Button("Aceptar");
-			Button btncancelar= new Button("Cancelar");
-			Dialog dlgSeguro=new Dialog(ventanaBajaCompras,"¿Seguro@?",true);
-			Label lblMensaje=new Label("¿Seguro que quiere borrar?");
-			Button btnSi=new Button("Si");
-			Button btnNo=new Button("No");
-			Datos datos=new Datos();
-			//Ditribuimos los elementos en la ventana de Login
-			public BajaCompras()
-			{	//Añadimos los elementos a la ventana
-				ventanaBajaCompras.setLayout(new FlowLayout());
-				ventanaBajaCompras.setSize(250,160);
-				ventanaBajaCompras.setResizable(false);
-				ventanaBajaCompras.setVisible(true);
-				ventanaBajaCompras.addWindowListener(this);
-				ventanaBajaCompras.setLocationRelativeTo(null);
+    Frame ventanaBajaCompras = new Frame("Baja Compras");
+    Label lblCompras = new Label("Compras");
+    Choice chcCompras = new Choice();
+    Button btnAceptar = new Button("Aceptar");
+    Button btnCancelar = new Button("Cancelar");
+    Dialog dlgSeguro = new Dialog(ventanaBajaCompras, "¿Seguro?", true);
+    Label lblMensaje = new Label("¿Seguro que quiere borrar?");
+    Button btnSi = new Button("Si");
+    Button btnNo = new Button("No");
+    Dialog dlgConfirmacion = new Dialog(ventanaBajaCompras, "Baja Correcta", true);
+    Label lblConfirmacion = new Label("La compra ha sido eliminada correctamente.");
 
-				//Añadimos los elementos a la ventana
-				ventanaBajaCompras.add(lblTickets);
-				ventanaBajaCompras.add(lblcompras);
-				ventanaBajaCompras.add(chctickets);
-				ventanaBajaCompras.add(chccompras);
-				ventanaBajaCompras.add(btnaceptar);
-				ventanaBajaCompras.add(btncancelar);
-				//Añadimos
-				ventanaBajaCompras.add(lblTickets);
-				datos.conectar();
-				String[]elementos=datos.rellenarChoiceTickets();
-				for(String choiceRelleno:elementos) {
-					chctickets.add(choiceRelleno);
-				}
-				ventanaBajaCompras.add(btnSi);
+    Datos datos = new Datos();
 
-				//Añadimos los botones
-				btnaceptar.addActionListener(this);
-				btncancelar.addActionListener(this);
-				btnSi.addActionListener(this);
-				btnNo.addActionListener(this);
-			}
-				
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				 if (e.getSource() == btnaceptar) {
-			            // Mostrar diálogo de confirmación
-			            dlgSeguro.setLayout(new FlowLayout());
-			            dlgSeguro.setSize(200, 100);
-			            dlgSeguro.add(lblMensaje);
-			            dlgSeguro.add(btnSi);
-			            dlgSeguro.add(btnNo);
-			            dlgSeguro.setVisible(true);
-			        } else if (e.getSource() == btncancelar) {
-			            ventanaBajaCompras.setVisible(false);
-			        } else if (e.getSource() == btnSi) {
-			            // Eliminar la compra seleccionada
-			            String idCompra = chccompras.getSelectedItem().split("-")[0];
-			            if (datos.eliminarCompra(Integer.parseInt(idCompra), "usuario_actual")) {
-			                System.out.println("Compra eliminada con éxito.");
-			            } else {
-			                System.err.println("Error al eliminar la compra.");
-			            }
-			            dlgSeguro.setVisible(false);
-			            ventanaBajaCompras.setVisible(false);
-			        } else if (e.getSource() == btnNo) {
-			            dlgSeguro.setVisible(false);
-			        }
-			    }
+    public BajaCompras() {
+        ventanaBajaCompras.setLayout(new FlowLayout());
+        ventanaBajaCompras.setSize(250, 200);
+        ventanaBajaCompras.setResizable(false);
+        ventanaBajaCompras.setVisible(true);
+        ventanaBajaCompras.addWindowListener(this);
+        ventanaBajaCompras.setLocationRelativeTo(null);
 
-				
-			
-			@Override
-			public void windowOpened(WindowEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			@Override
-			public void windowClosing(WindowEvent e) {
-				ventanaBajaCompras.setVisible(false);
-				
-			}
-			@Override
-			public void windowClosed(WindowEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			@Override
-			public void windowIconified(WindowEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			@Override
-			public void windowDeiconified(WindowEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			@Override
-			public void windowActivated(WindowEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			@Override
-			public void windowDeactivated(WindowEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
+        ventanaBajaCompras.add(lblCompras);
+        ventanaBajaCompras.add(chcCompras);
+        ventanaBajaCompras.add(btnAceptar);
+        ventanaBajaCompras.add(btnCancelar);
+
+        datos.conectar();
+        String[] elementosCompras = datos.rellenarChoiceCompraBaja();
+
+        for (String choiceRelleno : elementosCompras) {
+            chcCompras.add(choiceRelleno);
+        }
+
+        btnAceptar.addActionListener(this);
+        btnCancelar.addActionListener(this);
+        btnSi.addActionListener(this);
+        btnNo.addActionListener(this);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == btnAceptar) {
+            dlgSeguro.setLayout(new FlowLayout());
+            dlgSeguro.setSize(200, 100);
+            dlgSeguro.add(lblMensaje);
+            dlgSeguro.add(btnSi);
+            dlgSeguro.add(btnNo);
+            dlgSeguro.setVisible(true);
+        } else if (e.getSource() == btnCancelar) {
+            ventanaBajaCompras.setVisible(false);
+        } else if (e.getSource() == btnSi) {
+            String idCompra = chcCompras.getSelectedItem().split("-")[0];
+            if (datos.eliminarCompra(Integer.parseInt(idCompra), "usuario_actual")) {
+                dlgSeguro.setVisible(false);
+                ventanaBajaCompras.setVisible(false);
+                dlgConfirmacion.setLayout(new FlowLayout());
+                dlgConfirmacion.setSize(250, 100);
+                dlgConfirmacion.add(lblConfirmacion);
+                dlgConfirmacion.setVisible(true);
+            } else {
+                System.err.println("Error al eliminar la compra.");
+            }
+        } else if (e.getSource() == btnNo) {
+            dlgSeguro.setVisible(false);
+        }
+    }
+
+    @Override
+    public void windowOpened(WindowEvent e) {
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+        ventanaBajaCompras.setVisible(false);
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
+    }
 }

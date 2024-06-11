@@ -36,7 +36,7 @@
 							btnexportar.addActionListener(this);
 						//Concetamos el objeto datconsulta//TextArea
 							datconsultas.conectar();
-							consulta.append("id - Nombre - Descripcion - Stock - id Tickets");
+							consulta.append("id - Nombre - Fecha - Stock - id Tickets");
 							consulta.append(datconsultas.ConsultaTickets());
 						//Desconectamos la base de datos
 							datconsultas.desconectar();

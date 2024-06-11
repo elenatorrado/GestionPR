@@ -46,10 +46,12 @@ public class AltaCompras implements WindowListener, ActionListener {
         ventanaAltaCompras.add(btnCancelar);
 
         // Rellenamos los Choice con los datos de la base de datos
-        for (String ticket : datAlta.rellenarChoiceTicketsAlta()) {
+        String[] tickets = datAlta.rellenarChoiceTicketsAltaCompra();
+        for (String ticket : tickets) {
             chTickets.add(ticket);
         }
-        for (String articulo : datAlta.rellenarChoiceArticulosAlta()) {
+        String[] articulos = datAlta.rellenarChoiceArticulosAltaCompra();
+        for (String articulo : articulos) {
             chArticulos.add(articulo);
         }
 
@@ -75,10 +77,10 @@ public class AltaCompras implements WindowListener, ActionListener {
             }
 
             // Comprobamos que la sentencia fue ejecutada correctamente y que los datos son correctos
-            String tickets = chTickets.getSelectedItem();
-            String articulos = chArticulos.getSelectedItem();
+            String idTicket = chTickets.getSelectedItem().split("-")[0]; // Obtener solo el id del ticket
+            String idArticulo = chArticulos.getSelectedItem().split("-")[0]; // Obtener solo el id del artículo
 
-            boolean altaCorrecta = datAlta.comprasAlta(tickets, articulos);
+            boolean altaCorrecta = datAlta.comprasAlta(null, idTicket, idArticulo);
 
             // Añadimos el dialogo a la ventana del Alta
             dlgAlta.setLayout(new FlowLayout());
