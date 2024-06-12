@@ -115,38 +115,40 @@ public class Datos {
 		}
 
 	// Consulta Tickets
-		public String formatofecha(Date fecha) {
-			SimpleDateFormat fechaNueva= new SimpleDateFormat("dd/MM/yyyy");
-		return fechaNueva.format(fecha);
-		}
+		//Dar Formato a la fecha
+		 public String formatofecha(Date fecha) {
+		        SimpleDateFormat fechaNueva = new SimpleDateFormat("dd/MM/yyyy");
+		        return fechaNueva.format(fecha);
+		    }
+		 //Hacemos la consulta con JOIN
+		    public String ConsultaTickets() {
+		        String contenido = "";
+		        String sentencia = "SELECT t.idTickets, t.descripcionTickets, t.fechaTickets, t.importeTickets, " +
+		                           "e.nombreEmpleado, e.apellidoEmpleado " +
+		                           "FROM tickets t " +
+		                           "JOIN empleado e ON t.idEmpleadoFK = e.idEmpleado;";
+
+		        try {
+		            statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+		            rs = statement.executeQuery(sentencia);
+
+		            while (rs.next()) {
+		                Date fecha = rs.getDate("fechaTickets");
+		                String nuevaFecha = formatofecha(fecha);
+		                contenido += "\n"
+		                        + rs.getString("idTickets") + "-"
+		                        + rs.getString("descripcionTickets") + "-"
+		                        + nuevaFecha + "-"
+		                        + rs.getString("importeTickets") + "-"
+		                        + rs.getString("nombreEmpleado") + " " + rs.getString("apellidoEmpleado") + "\n";
+		            }
+		        } catch (SQLException e) {
+		            System.out.println("Error en la sentencia SQL:" + e.toString());
+		        }
+
+		        return contenido;
+		    }
 		
-		public String ConsultaTickets() {
-			String contenido = "";
-			String sentencia = "SELECT * FROM tickets;";
-
-			try {
-					statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-					rs = statement.executeQuery(sentencia);
-
-			while (rs.next()) {
-				Date fecha=rs.getDate("fechaTickets");
-				String nuevaFecha=formatofecha(fecha);
-					contenido += contenido + "\n"
-						+ rs.getString("idTickets") + "-" 
-						+ rs.getString("descripcionTickets") 
-						+ "-"
-						+nuevaFecha
-						+ "-" + rs.getString("importeTickets") 
-						+ "-"
-						+ "-" + rs.getString("idEmpleadoFK") + "\n";
-			}
-			} catch (SQLException e) {
-				System.out.println("Error en la sentencia SQL:" + e.toString());
-			}
-
-				return contenido;
-			}
-	
 	
 
 	// Consulta Articulo
@@ -172,23 +174,28 @@ public class Datos {
 
 	// Consulta Compra
 		public String ConsultaCompra() {
-				String contenido = "";
-				String sentencia = "SELECT * FROM compra;";
+	        String contenido = "";
+	        String sentencia = "SELECT c.idCompra, t.descripcionTickets, a.nombreArticulo " +
+	                           "FROM compra c " +
+	                           "JOIN tickets t ON c.idTicketsFK = t.idTickets " +
+	                           "JOIN articulos a ON c.idArticulosFK = a.idArticulo;";
 
-			try {
-				statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-				rs = statement.executeQuery(sentencia);
+	        try {
+	            statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+	            rs = statement.executeQuery(sentencia);
 
-			while (rs.next()) {
-					contenido = contenido+ "\n" + rs.getString("idCompra") + "-" + rs.getInt("idTicketsFK") + "-"
-						+ rs.getInt("idArticulosFK") + "\n";
-			}
-			} catch (SQLException e) {
-				System.out.println("Error en la sentencia SQL:" + e.toString());
-			}
+	            while (rs.next()) {
+	                contenido += "\n" + rs.getString("idCompra") + "-" 
+	                        + rs.getString("descripcionTickets") + "-" 
+	                        + rs.getString("nombreArticulo") + "\n";
+	            }
+	        } catch (SQLException e) {
+	            System.out.println("Error en la sentencia SQL:" + e.toString());
+	        }
 
-			return contenido;
-			}
+	        return contenido;
+	    }
+	
 	// ALTAS
 
 	//  Empleado
@@ -698,7 +705,7 @@ public void ayuda()
 {
     try
     {
-        Runtime.getRuntime().exec("Ayuda.chm");
+        Runtime.getRuntime().exec("C:\\Users\\Elena\\Desktop\\GESTIONPR3\\Ayuda.chm");
     }
     catch(IOException e)
     {

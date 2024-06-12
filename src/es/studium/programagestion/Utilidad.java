@@ -10,6 +10,17 @@ public class Utilidad {
 
     private static final String LOG_FILE_PATH = "movimientos.log"; // Ruta del archivo log
 
+    public static void crearFicheroLog() {
+        try {
+            // Creamos el fichero log si no existe
+            FileWriter fileWriter = new FileWriter(LOG_FILE_PATH, false);
+            fileWriter.close();
+            System.out.println("Fichero log creado correctamente");
+        } catch (IOException e) {
+            System.out.println("Error al crear el fichero log: " + e.toString());
+        }
+    }
+
     public static void escrituraFicheroLog(String usuario, String mensaje) {
         BufferedWriter writer = null;
         try {
@@ -30,5 +41,4 @@ public class Utilidad {
         }
     }
 }
-
 
