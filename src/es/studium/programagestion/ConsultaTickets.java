@@ -15,7 +15,7 @@
 
 		//Creamos los elementos del Consulta Empleado
 				Frame ventanaConsultaTickets = new Frame ("Consulta Tickets");
-				TextArea consulta=new TextArea(10,30);
+				TextArea consulta=new TextArea(10,40);
 				Button btnexportar= new Button("Exportar a PDF");
 				Datos datconsultas= new Datos();
 		//Ditribuimos los elementos en la ventana de Login

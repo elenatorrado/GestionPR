@@ -23,13 +23,12 @@ public class BajaTickets implements WindowListener, ActionListener {
     Button btnNo = new Button("No");
     Dialog dlgResultado = new Dialog(ventanaBajaTickets, "Resultado", true);
     Label lblResultado = new Label();
-    Button btnOk = new Button("OK");
     Datos datos = new Datos();
 
     public BajaTickets() {
         // Añadimos los elementos a la ventana
         ventanaBajaTickets.setLayout(new FlowLayout());
-        ventanaBajaTickets.setSize(250, 160);
+        ventanaBajaTickets.setSize(250, 140);
         ventanaBajaTickets.setResizable(false);
         ventanaBajaTickets.setVisible(true);
         ventanaBajaTickets.addWindowListener(this);
@@ -38,10 +37,7 @@ public class BajaTickets implements WindowListener, ActionListener {
         // Añadimos
         ventanaBajaTickets.add(lblBajaTickets);
         datos.conectar();
-        String[] elementos = datos.rellenarChoiceTickets();
-        for (String choiceRelleno : elementos) {
-            chcTickets.add(choiceRelleno);
-        }
+        datos.rellenarChoiceTickets(chcTickets); // Utilizamos el método de la clase Datos
         ventanaBajaTickets.add(chcTickets);
         ventanaBajaTickets.add(btnAceptar);
         ventanaBajaTickets.add(btnCancelar);
@@ -51,7 +47,7 @@ public class BajaTickets implements WindowListener, ActionListener {
         btnCancelar.addActionListener(this);
         btnSi.addActionListener(this);
         btnNo.addActionListener(this);
-        btnOk.addActionListener(this);
+       
     }
 
     @Override
@@ -59,7 +55,7 @@ public class BajaTickets implements WindowListener, ActionListener {
         if (e.getSource() == btnAceptar) {
             // Mostrar diálogo de confirmación
             dlgSeguro.setLayout(new FlowLayout());
-            dlgSeguro.setSize(200, 100);
+            dlgSeguro.setSize(280, 100);
             dlgSeguro.add(lblMensaje);
             dlgSeguro.add(btnSi);
             dlgSeguro.add(btnNo);
@@ -76,15 +72,11 @@ public class BajaTickets implements WindowListener, ActionListener {
             }
             dlgSeguro.setVisible(false);
             dlgResultado.setLayout(new FlowLayout());
-            dlgResultado.setSize(200, 100);
+            dlgResultado.setSize(250, 150);
             dlgResultado.add(lblResultado);
-            dlgResultado.add(btnOk);
             dlgResultado.setVisible(true);
         } else if (e.getSource() == btnNo) {
             dlgSeguro.setVisible(false);
-        } else if (e.getSource() == btnOk) {
-            dlgResultado.setVisible(false);
-            ventanaBajaTickets.setVisible(false);
         }
     }
 

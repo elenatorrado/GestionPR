@@ -31,7 +31,7 @@ public class ModificacionesTickets implements WindowListener, ActionListener {
     public ModificacionesTickets() {
         // Configurar la ventana principal
         ventanaModTic.setLayout(new FlowLayout());
-        ventanaModTic.setSize(370, 200);
+        ventanaModTic.setSize(370, 180);
         ventanaModTic.setResizable(false);
         ventanaModTic.setVisible(true);
         ventanaModTic.addWindowListener(this);
@@ -53,7 +53,7 @@ public class ModificacionesTickets implements WindowListener, ActionListener {
 
         // Configurar el diálogo de confirmación
         dlgSeguro.setLayout(new FlowLayout());
-        dlgSeguro.setSize(300, 150);
+        dlgSeguro.setSize(360, 100);
         dlgSeguro.add(lblMensaje);
         dlgSeguro.add(btnSi);
         dlgSeguro.add(btnNo);

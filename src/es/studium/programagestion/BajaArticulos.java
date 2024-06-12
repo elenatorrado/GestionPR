@@ -12,95 +12,75 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 public class BajaArticulos implements WindowListener, ActionListener {
-    private Frame ventanaBajaArticulo;
-    private Label lblnombreart;
-    private Button btnaceptar;
-    private Button btncancelar;
-    private Datos datos;
-    private Choice chcnombreart;
-    
-    // Confirmation Dialog
-    private Dialog dlgSeguro;
-    private Label lblMensaje;
-    private Button btnSi;
-    private Button btnNo;
-    
-    // Success Dialog
-    private Dialog dlgConfirm;
-    private Label lblConfirm;
+    Frame ventanaBaja = new Frame("Baja Artículo");
+    Label lblBaja = new Label("Elegir Artículo a Borrar: ");
+    Choice choArticulos = new Choice();
+    Button btnAceptar = new Button("Aceptar");
+    Button btnCancelar = new Button("Cancelar");
+    Dialog dlgSeguro = new Dialog(ventanaBaja, "¿Seguro?", true);
+    Label lblMensaje = new Label("¿Seguro que quieres borrar este artículo?");
+    Button btnSi = new Button("Sí");
+    Button btnNo = new Button("No");
+    Label lblResultado = new Label("");
+    Button btnOk = new Button("OK");
+    Datos datos = new Datos();
 
     public BajaArticulos() {
-        datos = new Datos();
-        ventanaBajaArticulo = new Frame("Baja Articulo");
-        lblnombreart = new Label("Nombre");
-        btnaceptar = new Button("Aceptar");
-        btncancelar = new Button("Cancelar");
-        chcnombreart = new Choice();
+        // Añadimos los elementos a la ventana
+        ventanaBaja.setLayout(new FlowLayout());
+        ventanaBaja.setSize(250, 160);
+        ventanaBaja.setResizable(false);
+        ventanaBaja.setVisible(true);
+        ventanaBaja.addWindowListener(this);
+        ventanaBaja.setLocationRelativeTo(null);
 
-        ventanaBajaArticulo.setLayout(new FlowLayout());
-        ventanaBajaArticulo.setSize(300, 150);
-        ventanaBajaArticulo.setResizable(false);
-        ventanaBajaArticulo.setVisible(true);
-        ventanaBajaArticulo.addWindowListener(this);
-        ventanaBajaArticulo.setLocationRelativeTo(null);
-        ventanaBajaArticulo.add(lblnombreart);
-        ventanaBajaArticulo.add(chcnombreart);
-        ventanaBajaArticulo.add(btnaceptar);
-        ventanaBajaArticulo.add(btncancelar);
+        // Añadimos
+        ventanaBaja.add(lblBaja);
+        datos.conectar();
+        datos.rellenarChoiceArticuloEliminar(choArticulos);
+        ventanaBaja.add(choArticulos);
+        ventanaBaja.add(btnAceptar);
 
-        btnaceptar.addActionListener(this);
-        btncancelar.addActionListener(this);
-        
-        String[] BajaCorrecta = datos.rellenarChoiceArticuloEliminar();
-        for(String elemento: BajaCorrecta) {
-            chcnombreart.add(elemento);
-        }
-
-        // Initialize Confirmation Dialog
-        dlgSeguro = new Dialog(ventanaBajaArticulo, "¿Seguro?", true);
-        lblMensaje = new Label("¿Estás seguro de eliminar este artículo?");
-        btnSi = new Button("Sí");
-        btnNo = new Button("No");
-        dlgSeguro.setLayout(new FlowLayout());
-        dlgSeguro.setSize(250, 110);
-        dlgSeguro.setResizable(false);
-        dlgSeguro.setLocationRelativeTo(null);
-        dlgSeguro.add(lblMensaje);
-        dlgSeguro.add(btnSi);
-        dlgSeguro.add(btnNo);
+        // Añadimos los botones
+        btnAceptar.addActionListener(this);
+        btnCancelar.addActionListener(this);
         btnSi.addActionListener(this);
         btnNo.addActionListener(this);
-        dlgSeguro.addWindowListener(this);
-
-        // Initialize Success Dialog
-        dlgConfirm = new Dialog(ventanaBajaArticulo, "Baja Correcta", true);
-        lblConfirm = new Label("El artículo ha sido eliminado correctamente.");
-        dlgConfirm.setLayout(new FlowLayout());
-        dlgConfirm.setSize(210, 100);
-        dlgConfirm.setResizable(false);
-        dlgConfirm.setLocationRelativeTo(null);
-        dlgConfirm.add(lblConfirm);
-        dlgConfirm.addWindowListener(this);
+        btnOk.addActionListener(this);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource().equals(btnaceptar)) {
-            if (chcnombreart.getSelectedIndex() != 0) {
-                dlgSeguro.setVisible(true);
-            }
-        } else if (e.getSource().equals(btnSi)) {
-            String seleccionArticulo = chcnombreart.getSelectedItem();
-            if (datos.eliminarArticulo(seleccionArticulo)) { // Assuming eliminarArticulo is a method in Datos
-                dlgSeguro.setVisible(false);
-                dlgConfirm.setVisible(true);
+        if (e.getSource() == btnAceptar) {
+            // Mostrar diálogo de confirmación
+            dlgSeguro.setLayout(new FlowLayout());
+            dlgSeguro.setSize(280, 100);
+            dlgSeguro.add(lblMensaje);
+            dlgSeguro.add(btnSi);
+            dlgSeguro.add(btnNo);
+            dlgSeguro.setVisible(true);
+        } else if (e.getSource() == btnCancelar) {
+            ventanaBaja.setVisible(false);
+        } else if (e.getSource() == btnSi) {
+            // Eliminar el artículo seleccionado
+            String idArticulo = choArticulos.getSelectedItem().split("-")[0];
+            if (datos.eliminarArticulo(Integer.parseInt(idArticulo))) {
+                lblResultado.setText("Artículo eliminado con éxito.");
             } else {
-                System.out.println("Error al eliminar el artículo.");
+                lblResultado.setText("Error al eliminar el artículo.");
             }
-        } else if (e.getSource().equals(btnNo)) {
             dlgSeguro.setVisible(false);
-        } else if (e.getSource().equals(btncancelar)) {
-            ventanaBajaArticulo.setVisible(false);
+            Dialog dlgResultado = new Dialog(ventanaBaja, "Resultado", true);
+            dlgResultado.setLayout(new FlowLayout());
+            dlgResultado.setSize(350, 150);
+            dlgResultado.add(lblResultado);
+            dlgResultado.add(btnOk);
+            dlgResultado.setLocationRelativeTo(null);
+            dlgResultado.setVisible(true);
+        } else if (e.getSource() == btnNo) {
+            dlgSeguro.setVisible(false);
+        } else if (e.getSource() == btnOk) {
+            System.exit(0);
         }
     }
 
@@ -109,15 +89,10 @@ public class BajaArticulos implements WindowListener, ActionListener {
 
     @Override
     public void windowClosing(WindowEvent e) {
-        if (dlgConfirm.isActive()) {
-            dlgConfirm.setVisible(false);
-        } else if (dlgSeguro.isActive()) {
-            dlgSeguro.setVisible(false);
-        } else {
-            ventanaBajaArticulo.setVisible(false);
-        }
+    	System.exit(0);
+    	
     }
-
+    
     @Override
     public void windowClosed(WindowEvent e) {}
 

@@ -28,7 +28,7 @@ public class BajaCompras implements WindowListener, ActionListener {
 
     public BajaCompras() {
         ventanaBajaCompras.setLayout(new FlowLayout());
-        ventanaBajaCompras.setSize(250, 200);
+        ventanaBajaCompras.setSize(250, 100);
         ventanaBajaCompras.setResizable(false);
         ventanaBajaCompras.setVisible(true);
         ventanaBajaCompras.addWindowListener(this);
@@ -69,7 +69,7 @@ public class BajaCompras implements WindowListener, ActionListener {
                 dlgSeguro.setVisible(false);
                 ventanaBajaCompras.setVisible(false);
                 dlgConfirmacion.setLayout(new FlowLayout());
-                dlgConfirmacion.setSize(250, 100);
+                dlgConfirmacion.setSize(300, 100);
                 dlgConfirmacion.add(lblConfirmacion);
                 dlgConfirmacion.setVisible(true);
             } else {
