@@ -1,0 +1,8 @@
+usuariousuarioFecha: [12/06/2024 15:11:08]  Sentencia: SELECT * FROM empleado;
+usuarioFecha: [12/06/2024 15:16:00]  Sentencia: SELECT * FROM empleado;
+usuarioFecha: [12/06/2024 15:23:56]  Sentencia: SELECT t.idTickets, t.descripcionTickets, t.fechaTickets, t.importeTickets, e.nombreEmpleado, e.apellidoEmpleado FROM tickets t JOIN empleado e ON t.idEmpleadoFK = e.idEmpleado;
+usuarioFecha: [12/06/2024 15:25:35]  Sentencia: INSERT INTO Empleado VALUES (NULL,'Manuel', 'Moreno','Mozo Almacen');
+usuarioFecha: [12/06/2024 15:32:05]  Sentencia: SELECT idTickets, descripcionTickets FROM tickets
+usuarioFecha: [12/06/2024 15:32:09]  Sentencia: Eliminar ticket con idTickets: 2
+usuarioFecha: [12/06/2024 15:37:17]  Sentencia: SELECT idEmpleado FROM empleado;
+usuarioFecha: [12/06/2024 15:37:38]  Sentencia: INSERT INTO tickets VALUES (NULL, 'Pelota Perro', '2024-12-19', 3.75, 4);
